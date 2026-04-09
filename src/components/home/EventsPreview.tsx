@@ -1,0 +1,95 @@
+"use client";
+
+import * as React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Calendar, MapPin } from "lucide-react";
+import { TextScramble } from "@/components/ui/text-scramble";
+
+const events = [
+  {
+    id: 1,
+    title: "Intro to GenAI with Google",
+    date: "Oct 12, 2026",
+    venue: "Main Auditorium",
+    image: "/hero-image.png"
+  },
+  {
+    id: 2,
+    title: "Web3 & Blockchain Basics",
+    date: "Oct 20, 2026",
+    venue: "Lab 04",
+    image: "/hero-image.png"
+  },
+  {
+    id: 3,
+    title: "Hacktoberfest Open Source",
+    date: "Oct 25, 2026",
+    venue: "Virtual",
+    image: "/hero-image.png"
+  }
+];
+
+export function EventsPreview() {
+  return (
+    <section className="py-24 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto px-4 z-10 relative">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <TextScramble as="h2" className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Upcoming Events</TextScramble>
+            <p className="text-foreground/60 max-w-xl">
+              Don't miss out on our latest workshops, hackathons, and speaker sessions.
+            </p>
+          </div>
+          <button className="mt-6 md:mt-0 px-6 py-2 rounded-full border border-glass-border bg-glass backdrop-blur hover:bg-glass/80 transition text-sm font-medium">
+            View All Events
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {events.map((event, idx) => (
+            <motion.div
+              key={event.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="group flex flex-col bg-glass border border-glass-border backdrop-blur-xl rounded-[2rem] overflow-hidden"
+            >
+              <div className="relative w-full h-48 overflow-hidden">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+              </div>
+              
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">{event.title}</h3>
+                <div className="flex flex-col space-y-2 mt-auto mb-6 text-sm text-foreground/70">
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="w-4 h-4 text-primary" />
+                    <span>{event.date}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    <span>{event.venue}</span>
+                  </div>
+                </div>
+                
+                <button className="w-full py-3 rounded-xl bg-background/50 border border-glass-border hover:bg-primary hover:text-primary-foreground transition-colors font-medium">
+                  Register Now
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

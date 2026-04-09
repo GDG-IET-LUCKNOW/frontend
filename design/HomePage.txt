@@ -1,0 +1,58 @@
+Here is the complete specification for the Home Page, structured as a prompt that you can copy and paste directly into Claude Code to generate your website:
+
+--------------------------------------------------------------------------------
+System Context & Tech Stack: Build a futuristic, dark-themed, premium Home Page for "GDG on Campus IET"
+. The tech stack must use Next.js, Tailwind CSS for styling, Framer Motion and GSAP ScrollTrigger for smooth reveal animations, and Lenis for smooth scrolling
+. Implement 3D elements (like Spline or Three.js) to give it a developer-tool, holographic feel with blue-purple lighting and glassmorphism effects
+.
+Please build the page sequentially with the following sections, exact content, and aesthetic constraints:
+1. Hero Section
+Layout: Split layout. Text content on the left side, and a 3D scene on the center-right
+.
+Content:
+Heading: "Build. Learn. Connect."
+Subheading: "GDG on Campus IET is a community of developers, designers, and innovators."
+Buttons: "Join Community" (Primary glow button) and "Explore Events" (Secondary ghost button)
+.
+Aesthetic & 3D Elements: Integrate a dark-themed 3D scene featuring a floating holographic laptop surrounded by orbiting cubes with icons for AI, Android, Web, Cloud, and Design
+. Include a neon grid floor at the bottom, floating particles, and a slowly rotating wireframe globe in the far background
+. Add a boot sequence animation before the hero appears, and make the 3D scene react to mouse-follow movement
+.
+2. Stats Section
+Layout: A horizontal grid or flexbox of four statistic blocks.
+Content: Display animated counters (counting up on scroll reveal) for the following stats:
+"Members"
+"Workshops Conducted"
+"Hackathons"
+"Events Hosted"
+.
+3. Domains Section
+Layout: Circular layout around a central glowing 3D sphere, or a sleek grid if 3D circular layout is too complex
+.
+Content: Create interactive cards for: "Web Development", "AI/ML", "Android", "Cloud", "UI/UX", and "Open Source"
+.
+Aesthetic & 3D Elements: The central sphere should have orbiting domain icons and rotating rings
+. The domain cards must feature glassmorphism, glowing borders, smooth hover animations (slight zoom), and small floating icons
+.
+4. Upcoming Events Preview
+Layout: A 3-column grid showing featured event cards.
+Content: Display 3 featured upcoming events. Each card must include:
+An Event Image placeholder
+"Event Title"
+"Date"
+"Venue"
+A "Register" button
+.
+5. Testimonials Section
+Layout: A carousel or a row of 3-4 subtle, dark-themed cards.
+Content: Include 3 to 4 student testimonials.
+Sample Quote: "GDG helped me connect with amazing people, attend workshops, and grow as a developer."
+.
+6. Final CTA Section
+Layout: Large centered call-to-action block at the bottom of the page.
+Content:
+Heading: "Ready to Join the Future?"
+Button: "Become a Member"
+.
+Aesthetic & 3D Elements: Place a large glowing portal or neon circle behind the main text
+. Add floating particles around the button and ensure the button has a premium hover glow

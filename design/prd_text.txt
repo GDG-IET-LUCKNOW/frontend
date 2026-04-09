@@ -1,0 +1,345 @@
+PRD: GDG on Campus IET Website
+GDG on Campus IET
+2026
+Contents
+1 Project Overview 3
+2 Goals 3
+3 Target Audience 3
+4 Suggested Tech Stack 3
+4.1 Frontend . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.2 Backend . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.3 Deployment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+5 Pages and Detailed Requirements 4
+6 Home Page 4
+6.1 Hero Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+6.2 Stats Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+6.3 Domains Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+6.4 Upcoming Events Preview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+6.5 Testimonials Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+6.6 Final CTA Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+7 About Page 6
+7.1 Mission Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+7.2 Why Join Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+7.3 Timeline Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+8 Team Page 7
+9 Events Page 7
+9.1 Upcoming Events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+9.2 Past Events . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+9.3 Event Timeline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+10 Gallery Page 8
+11 Join Us Page 8
+11.1 Join Form . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+11.2 Benefits Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+12 Contact Page 9
+1
+13 3D Elements and Placement Guide 9
+13.1 Hero Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+13.2 About Page . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+13.3 Domains Section . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+13.4 Team Page . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+13.5 Events Page . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+13.6 Gallery Page . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+13.7 Join Us Page . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+13.8 Footer . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+14 Recommended Animations 12
+15 Performance Guidelines 12
+16 Final Notes 12
+2
+1 Project Overview
+The goal is to build a modern, futuristic, and community-focused website for GDG on Campus
+IET. The website should showcase events, team members, community activities, and attract
+new students to join.
+The design language should feel:
+•Futuristic
+•Dark-themed
+•Interactive
+•Slightly 3D
+•Smooth and premium
+•Inspired by developer tools, boot sequences, holograms, and modern tech products
+The website should not feel like a typical college club page.
+2 Goals
+•Increase awareness about GDG on Campus IET
+•Showcase upcoming and past events
+•Highlight the core team and chapter achievements
+•Allow students to join the community easily
+•Build a memorable first impression
+3 Target Audience
+•Students interested in development
+•Beginners exploring tech communities
+•Designers and content creators
+•Potential sponsors and collaborators
+•Speakers and mentors
+4 Suggested Tech Stack
+Keep the stack minimal and avoid overengineering.
+3
+4.1 Frontend
+•Next.js
+•Tailwind CSS
+•Framer Motion
+•GSAP ScrollTrigger
+•Lenis for smooth scrolling
+•Spline for hero 3D scene
+4.2 Backend
+•No heavy backend initially
+•Use static JSON files or local data for events and team members
+•Optional: Google Forms or Formspree for contact/join forms
+4.3 Deployment
+•Vercel for deployment
+•GitHub for version control
+5 Pages and Detailed Requirements
+6 Home Page
+6.1 Hero Section
+The hero section should immediately create a futuristic impression.
+Content Suggestions:
+•Heading: Build. Learn. Connect.
+•Subheading: GDG on Campus IET is a community of developers, designers, and innova-
+tors.
+•Buttons:
+–Join Community
+–Explore Events
+Animation Ideas:
+•Boot sequence animation before hero appears
+•Floating 3D laptop or holographic screen
+•Floating cubes for AI, Web, Android, Cloud
+•Mouse-follow movement for hero scene
+Prompt for 3D Hero Generation:
+Create a futuristic dark-themed 3D scene with a floating holographic laptop, glowing
+cubes, orbit rings, neon grid floor, developer icons, and blue-purple lighting.
+4
+6.2 Stats Section
+Display important numbers:
+•Members
+•Workshops Conducted
+•Hackathons
+•Events Hosted
+Use animated counters.
+6.3 Domains Section
+Show cards for:
+•Web Development
+•AI/ML
+•Android
+•Cloud
+•UI/UX
+•Open Source
+Cards should have glow effects, hover animations, and small floating icons.
+6.4 Upcoming Events Preview
+Display 3 featured upcoming events with cards.
+Each card should contain:
+•Event image
+•Event title
+•Date
+•Venue
+•Register button
+6.5 Testimonials Section
+Include 3 to 4 student testimonials.
+Example Testimonial:
+GDG helped me connect with amazing people, attend workshops, and grow as a
+developer.
+5
+6.6 Final CTA Section
+Large centered CTA with a glowing portal or circle.
+Heading:
+Ready to Join the Future?
+Button:
+Become a Member
+7 About Page
+7.1 Mission Section
+Explain what GDG is and why the chapter exists.
+Example Content:
+GDG on Campus IET is a student-led community where developers, designers, and
+innovators come together to learn, build, and grow.
+7.2 Why Join Section
+Use cards for:
+•Networking
+•Learning
+•Hackathons
+•Projects
+•Mentorship
+7.3 Timeline Section
+Display chapter milestones:
+•Chapter Founded
+•First Workshop
+•First Hackathon
+•Major Achievement
+Use a glowing vertical line with animated nodes.
+6
+8 Team Page
+Show all team members in categories:
+•Lead
+•Co-Lead
+•Technical Team
+•Design Team
+•Events Team
+•Social Media Team
+Each team card should include:
+•Photo
+•Name
+•Role
+•Short Bio
+•LinkedIn Link
+•GitHub Link
+Animation Ideas:
+•Tilt effect on hover
+•Glow border on hover
+•Slight 3D movement
+Prompt for Team Card Design:
+Create a futuristic glassmorphism profile card with neon glow, holographic border,
+rounded corners, dark theme, and subtle hover tilt effect.
+9 Events Page
+9.1 Upcoming Events
+Use large cards with event posters.
+Fields:
+•Title
+•Description
+•Speaker
+•Date
+•Venue
+•Register Button
+7
+9.2 Past Events
+Use smaller cards with image previews and stats.
+•Number of attendees
+•Photos
+•Feedback score
+9.3 Event Timeline
+Instead of plain lists, use a glowing path connecting event cards.
+10 Gallery Page
+The gallery should feel dynamic and alive.
+•Use masonry grid layout
+•Hover zoom effect on images
+•Floating cards effect
+•Scroll reveal animations
+Prompt for Gallery Style:
+Create a dark-themed gallery with floating image cards, soft neon glow, subtle depth,
+glassmorphism, and smooth hover zoom.
+11 Join Us Page
+This page should focus on conversions.
+11.1 Join Form
+Include:
+•Name
+•Email
+•Year
+•Branch
+•Area of Interest
+•Why do you want to join?
+8
+11.2 Benefits Section
+•Access to workshops
+•Networking opportunities
+•Team projects
+•Mentorship
+•Community support
+12 Contact Page
+Include:
+•Contact form
+•Official email
+•Instagram link
+•LinkedIn link
+•Discord or WhatsApp link
+•Faculty coordinator details
+13 3D Elements and Placement Guide
+13.1 Hero Section
+The hero section should contain the strongest 3D visuals because it creates the first impression.
+Recommended Elements:
+•Floating holographic laptop in the center
+•Orbiting cubes with icons for AI, Android, Web, Cloud, and Design
+•Neon grid floor in the background
+•Floating particles and small glowing spheres
+•Rotating wireframe globe to represent community
+•Transparent holographic UI panels floating around the main object
+Placement:
+•Laptop in the center-right of the hero section
+•Text content on the left side
+•Floating cubes around the laptop scene
+•Globe placed in the far background with slow rotation
+•Neon grid floor at the bottom of the hero scene
+9
+13.2 About Page
+Recommended Elements:
+•Rotating ring structure behind the mission section
+•Floating icon chips for networking, learning, hackathons, and mentorship
+•Small orbit animation around milestone nodes in the timeline
+Placement:
+•Ring structure behind the main heading
+•Floating chips around the mission cards
+•Timeline nodes connected with glowing lines and small animated dots
+13.3 Domains Section
+Recommended Elements:
+•Central glowing sphere with orbiting domain icons
+•Floating mini cards for AI/ML, Web, Android, Cloud, UI/UX, Open Source
+•Rotating rings around the center sphere
+Placement:
+•Sphere in the center of the section
+•Domain cards arranged in circular layout around the sphere
+•Each domain card zooms slightly on hover
+13.4 Team Page
+Recommended Elements:
+•Glassmorphism profile cards
+•Subtle hover tilt effect on team cards
+•Floating holographic borders around selected team leads
+•Animated particles behind the cards
+Placement:
+•Team cards arranged in grid format
+•Important members like Lead and Co-Lead displayed larger
+•Small floating particles in the section background
+10
+13.5 Events Page
+Recommended Elements:
+•Glowing event timeline path
+•Floating event posters with layered depth effect
+•Small animated location pins and calendar icons
+•Hover effect with event cards lifting slightly upward
+Placement:
+•Timeline path vertically centered
+•Event cards alternating left and right
+•Featured event poster larger than other cards
+13.6 Gallery Page
+Recommended Elements:
+•Floating photo cards with depth effect
+•Slight 3D rotation on hover
+•Stacked polaroid style layout
+•Soft glowing shadows under images
+Placement:
+•Images arranged in masonry layout
+•Larger images placed in center for visual balance
+•Hovered image comes slightly forward compared to others
+13.7 Join Us Page
+Recommended Elements:
+•Large glowing ring or portal behind the CTA
+•Floating particles around the join button
+•Animated line connections between benefits cards
+Placement:
+•Portal placed behind the final CTA text
+•Join form on the left side
+•Benefits cards on the right side with animated connectors
+11
+13.8 Footer
+Recommended Elements:
+•Small floating icons for social platforms
+•Thin glowing divider line
+•Minimal particle effect in background
+Placement:
+•Social icons centered
+•Divider line above footer links
+•Particle effect spread lightly across the footer background
+14 Recommended Animations
+•Smooth scrolling using Lenis
+•Fade-in section reveal on scroll
+•Cards entering from left and right
+•Parallax movement in hero section
+•Floating particles in background
+•Mouse-follow glow effects
+•Text reveal animation
+•Rotating 3D objects in hero
+•Glowing timeline path for events
+15 Performance Guidelines
+•Keep Spline scenes lightweight
+•Avoid too many heavy 3D objects
+•Compress images before upload
+•Use lazy loading for gallery images
+•Keep animation duration smooth and short
+16 Final Notes
+The website should feel premium but still remain fast and simple to maintain.
+Focus more on storytelling, strong visuals, and community feeling rather than adding too
+many unnecessary features.
+12
