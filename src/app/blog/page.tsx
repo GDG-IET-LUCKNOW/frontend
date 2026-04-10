@@ -4,51 +4,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
+import { fetchBlogs } from "@/api/api";
 
-const posts = [
-  {
-    id: 1,
-    title: "Mastering React Server Components",
-    excerpt: "A deep dive into how RSCs are changing the way we build modern web applications and optimizing bundle sizes.",
-    author: "Alice Johnson",
-    date: "Oct 05, 2026",
-    readTime: "5 min read",
-    category: "Web Dev",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    id: 2,
-    title: "Getting Started with Jetpack Compose",
-    excerpt: "Learn how to build native Android UI with declarative components and accelerate your app development.",
-    author: "Mark Smith",
-    date: "Sep 28, 2026",
-    readTime: "8 min read",
-    category: "Android",
-    image: "https://images.unsplash.com/photo-1607252656733-fd7427187c33?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    id: 3,
-    title: "The Future of GenAI in Code Generation",
-    excerpt: "Exploring the capabilities of LLMs as pair programmers and what it means for the future of software engineering.",
-    author: "Sarah Lewis",
-    date: "Sep 15, 2026",
-    readTime: "6 min read",
-    category: "AI/ML",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    id: 4,
-    title: "Building Scalable Architectures",
-    excerpt: "How to leverage microservices and modern container orchestration for robust global deployments.",
-    author: "David Chen",
-    date: "Sep 02, 2026",
-    readTime: "12 min read",
-    category: "Cloud",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600"
-  }
-];
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=600";
 
 export default function BlogPage() {
+  const [posts, setPosts] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  React.useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchBlogs();
+        if (data && data.length > 0) {
+           const mappedBlogs = data.map((b: any) => ({
+             id: b._id || b.id,
+             title: b.title || "Untitled",
+             excerpt: b.content ? b.content.substring(0, 120) + "..." : "A deep dive into how changing the way we build modern web applications and optimizing bundle sizes.",
+             author: b.author || "GDG Team",
+             date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+             readTime: "5 min read",
+             category: "Tech",
+             image: (b.media && b.media.length > 0 && b.media[0].url) ? b.media[0].url : FALLBACK_IMAGE
+           }));
+           setPosts(mappedBlogs);
+        }
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadBlogs();
+  }, []);
+
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none z-0" />
@@ -62,7 +51,16 @@ export default function BlogPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {posts.map((post, idx) => (
+          {isLoading ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading insights...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No insights published yet. Check back soon!</p>
+            </div>
+          ) : (
+            posts.map((post, idx) => (
             <Link key={post.id} href={`/blog/${post.id}`}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -104,7 +102,7 @@ export default function BlogPage() {
                 </div>
               </motion.div>
             </Link>
-          ))}
+          )))}
         </div>
       </div>
     </main>

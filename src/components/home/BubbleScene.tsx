@@ -20,7 +20,7 @@ function Bubble({ position, image, size = 1 }: any) {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHover] = useState(false);
   const [dragging, setDragging] = useState(false);
-  
+
   const zPlane = useMemo(() => new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), []);
 
   useFrame((state) => {
@@ -34,13 +34,13 @@ function Bubble({ position, image, size = 1 }: any) {
 
     if (rigidRef.current) {
       const p = rigidRef.current.translation();
-      
+
       if (dragging) {
         const raycaster = new THREE.Raycaster();
         raycaster.setFromCamera(state.pointer, state.camera);
         const intersect = new THREE.Vector3();
         raycaster.ray.intersectPlane(zPlane, intersect);
-        
+
         const dir = new THREE.Vector3().subVectors(intersect, p);
         rigidRef.current.setLinvel({ x: dir.x * 20, y: dir.y * 20, z: 0 }, true);
       } else {
@@ -65,13 +65,13 @@ function Bubble({ position, image, size = 1 }: any) {
     e.stopPropagation();
     setDragging(false);
     e.target.releasePointerCapture(e.pointerId);
-    
+
     // Slingshot release
     if (rigidRef.current) {
-      rigidRef.current.applyImpulse({ 
+      rigidRef.current.applyImpulse({
         x: (Math.random() - 0.5) * 80, // Super aggressive manual flick
-        y: (Math.random() - 0.5) * 80, 
-        z: 0 
+        y: (Math.random() - 0.5) * 80,
+        z: 0
       }, true);
     }
   };
@@ -103,9 +103,8 @@ function Bubble({ position, image, size = 1 }: any) {
         <meshBasicMaterial transparent opacity={0} depthWrite={false} color="#ffffff" />
         <Html center transform distanceFactor={15} zIndexRange={[100, 0]} style={{ pointerEvents: 'none' }}>
           <div
-            className={`transition-all duration-300 pointer-events-none drop-shadow-2xl ${
-              hovered || dragging ? "scale-105 drop-shadow-[0_20px_50px_rgba(255,255,255,0.4)]" : "scale-100"
-            }`}
+            className={`transition-all duration-300 pointer-events-none drop-shadow-2xl ${hovered || dragging ? "scale-105 drop-shadow-[0_20px_50px_rgba(255,255,255,0.4)]" : "scale-100"
+              }`}
           >
             <img src={image} alt="tech bubble" className="w-[130px] h-[130px] object-contain select-none" draggable={false} />
           </div>
@@ -149,7 +148,7 @@ export function BubbleScene() {
       const pX = Math.cos(angle) * radius;
       const pY = Math.sin(angle) * radius;
       const pZ = 0; // Exactly zero, forces 2D collisions
-      
+
       return {
         ...item,
         position: [pX, pY, pZ],

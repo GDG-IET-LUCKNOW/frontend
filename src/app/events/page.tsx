@@ -5,61 +5,41 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import { fetchEvents } from "@/api/api";
 
-const allEvents = [
-  {
-    id: 1,
-    title: "Intro to GenAI with Google",
-    date: "Oct 12, 2026",
-    time: "10:00 AM",
-    venue: "Main Auditorium",
-    image: "/hero-image.png",
-    type: "Workshop",
-    status: "Upcoming"
-  },
-  {
-    id: 2,
-    title: "Web3 & Blockchain Basics",
-    date: "Oct 20, 2026",
-    time: "2:00 PM",
-    venue: "Lab 04",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f4ec651?auto=format&fit=crop&q=80&w=600",
-    type: "Seminar",
-    status: "Upcoming"
-  },
-  {
-    id: 3,
-    title: "Hacktoberfest Open Source",
-    date: "Oct 25, 2026",
-    time: "All Day",
-    venue: "Virtual",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600",
-    type: "Hackathon",
-    status: "Upcoming"
-  },
-  {
-    id: 4,
-    title: "Cloud Computing 101",
-    date: "Nov 05, 2026",
-    time: "11:00 AM",
-    venue: "Room 302",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600",
-    type: "Workshop",
-    status: "Upcoming"
-  },
-  {
-    id: 5,
-    title: "IETECH Orientation 2026",
-    date: "Sep 15, 2026",
-    time: "4:00 PM",
-    venue: "Main Auditorium",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600",
-    type: "Community",
-    status: "Past"
-  }
-];
+const FALLBACK_IMAGE = "/hero-image.png";
 
 export default function EventsPage() {
+  const [events, setEvents] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchEvents();
+        if (data && data.length > 0) {
+           const mappedEvents = data.map((e: any) => ({
+             id: e._id || e.id,
+             title: e.title || "Untitled Event",
+             date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+             time: new Date(e.date || Date.now()).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+             venue: e.venue || "Virtual",
+             image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE,
+             type: e.type || "Event",
+             status: new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming"
+           }));
+           setEvents(mappedEvents);
+        }
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadEvents();
+  }, []);
+
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-[20%] right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none z-0" />
@@ -74,7 +54,16 @@ export default function EventsPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allEvents.map((event, idx) => (
+          {isLoading ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading events...</p>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No upcoming events listed yet. Check back soon!</p>
+            </div>
+          ) : (
+            events.map((event, idx) => (
             <Link key={event.id} href={`/events/${event.id}`}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -131,7 +120,7 @@ export default function EventsPage() {
                 </div>
               </motion.div>
             </Link>
-          ))}
+          )))}
         </div>
       </div>
     </main>

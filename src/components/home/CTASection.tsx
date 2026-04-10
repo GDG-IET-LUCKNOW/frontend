@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function CTASection() {
   return (
@@ -30,16 +31,17 @@ export function CTASection() {
           Ready to Join <br /> the Future?
         </motion.h2>
         
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="group relative px-8 py-4 rounded-full font-bold text-lg overflow-hidden bg-foreground text-background transition-transform hover:scale-105 active:scale-95"
         >
-          <span className="relative z-10">Become a Member</span>
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-        </motion.button>
+          <Link href="/join" className="group relative px-8 py-4 rounded-full font-bold text-lg overflow-hidden bg-foreground text-background transition-transform hover:scale-105 active:scale-95 inline-block cursor-pointer">
+            <span className="relative z-10">Become a Member</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

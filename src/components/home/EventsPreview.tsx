@@ -2,35 +2,42 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import { TextScramble } from "@/components/ui/text-scramble";
+import { fetchEvents } from "@/api/api";
 
-const events = [
-  {
-    id: 1,
-    title: "Intro to GenAI with Google",
-    date: "Oct 12, 2026",
-    venue: "Main Auditorium",
-    image: "/hero-image.png"
-  },
-  {
-    id: 2,
-    title: "Web3 & Blockchain Basics",
-    date: "Oct 20, 2026",
-    venue: "Lab 04",
-    image: "/hero-image.png"
-  },
-  {
-    id: 3,
-    title: "Hacktoberfest Open Source",
-    date: "Oct 25, 2026",
-    venue: "Virtual",
-    image: "/hero-image.png"
-  }
-];
+const FALLBACK_IMAGE = "/hero-image.png";
 
 export function EventsPreview() {
+  const [events, setEvents] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchEvents();
+        if (data && data.length > 0) {
+           const mappedEvents = data.slice(0, 3).map((e: any) => ({
+             id: e._id || e.id,
+             title: e.title || "Untitled",
+             date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+             venue: e.venue || "Virtual",
+             image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE
+           }));
+           setEvents(mappedEvents);
+        }
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadEvents();
+  }, []);
+
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Background glow */}
@@ -44,13 +51,22 @@ export function EventsPreview() {
               Don't miss out on our latest workshops, hackathons, and speaker sessions.
             </p>
           </div>
-          <button className="mt-6 md:mt-0 px-6 py-2 rounded-full border border-glass-border bg-glass backdrop-blur hover:bg-glass/80 transition text-sm font-medium">
+          <Link href="/events" className="mt-6 md:mt-0 px-6 py-2 rounded-full border border-glass-border bg-glass backdrop-blur hover:bg-glass/80 transition text-sm font-medium inline-block cursor-pointer">
             View All Events
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {events.map((event, idx) => (
+          {isLoading ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading upcoming events...</p>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No upcoming events listed yet. Check back soon!</p>
+            </div>
+          ) : (
+            events.map((event, idx) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 30 }}
@@ -87,7 +103,7 @@ export function EventsPreview() {
                 </button>
               </div>
             </motion.div>
-          ))}
+          )))}
         </div>
       </div>
     </section>

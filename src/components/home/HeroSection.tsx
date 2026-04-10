@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
@@ -40,16 +41,16 @@ export function HeroSection() {
           </p>
           
           <div className="flex items-center space-x-4 pt-4">
-            <button className="group relative px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium overflow-hidden">
+            <Link href="/join" className="group relative px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium overflow-hidden inline-block cursor-pointer">
               <span className="relative z-10 flex items-center">
                 Join Community
                 <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </button>
-            <button className="px-6 py-3 rounded-full bg-glass border border-glass-border backdrop-blur-md font-medium hover:bg-glass/80 transition-colors">
+            </Link>
+            <Link href="/events" className="px-6 py-3 rounded-full bg-glass border border-glass-border backdrop-blur-md font-medium hover:bg-glass/80 transition-colors inline-block cursor-pointer">
               Explore Events
-            </button>
+            </Link>
           </div>
         </motion.div>
 

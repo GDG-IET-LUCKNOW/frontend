@@ -3,6 +3,7 @@ import * as React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
+import { fetchTeamMembers } from "@/api/api";
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -25,40 +26,34 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const team = [
-  {
-    name: "Alex Rivera",
-    role: "Lead Organizer",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
-  },
-  {
-    name: "Samantha Lee",
-    role: "Tech Lead - AI/ML",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
-  },
-  {
-    name: "Marcus Johnson",
-    role: "Tech Lead - Web",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300",
-  },
-  {
-    name: "Elena Rodriguez",
-    role: "UI/UX Designer",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=300",
-  },
-  {
-    name: "David Kim",
-    role: "Event Coordinator",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=300",
-  },
-  {
-    name: "Priya Patel",
-    role: "Marketing Manager",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300",
-  }
-];
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300";
 
 export default function TeamPage() {
+  const [teamMembers, setTeamMembers] = React.useState<any[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const loadTeam = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchTeamMembers();
+        if (data && data.length > 0) {
+           const mappedTeam = data.map((t: any) => ({
+             name: t.name || "Unknown",
+             role: t.role || "Member",
+             image: t.imageUrl || FALLBACK_IMAGE
+           }));
+           setTeamMembers(mappedTeam);
+        }
+      } catch (error) {
+        console.error("Failed to fetch team:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadTeam();
+  }, []);
+
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0" />
@@ -72,7 +67,16 @@ export default function TeamPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {team.map((member, idx) => (
+          {isLoading ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading team members...</p>
+            </div>
+          ) : teamMembers.length === 0 ? (
+            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
+              <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Team members will be revealed shortly!</p>
+            </div>
+          ) : (
+            teamMembers.map((member, idx) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 40 }}
@@ -95,7 +99,7 @@ export default function TeamPage() {
                 </button>
               </div>
             </motion.div>
-          ))}
+          )))}
         </div>
       </div>
     </main>

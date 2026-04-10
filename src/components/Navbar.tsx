@@ -25,8 +25,8 @@ export function Navbar() {
         </nav>
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <Link 
-            href="/join" 
+          <Link
+            href="/join"
             className="hidden md:inline-flex bg-foreground text-background px-4 py-2 rounded-full font-medium text-sm hover:opacity-90 transition-opacity"
           >
             Join Us
