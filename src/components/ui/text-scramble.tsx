@@ -30,7 +30,7 @@ export function TextScramble({
   const MotionComponent = motion.create(
     Component as keyof JSX.IntrinsicElements
   );
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<any>(null);
   const isInView = useInView(ref, { once: false, amount: "some" });
   
   const [displayText, setDisplayText] = useState(children);
