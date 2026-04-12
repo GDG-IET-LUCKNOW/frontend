@@ -7,18 +7,18 @@ import { Quote } from "lucide-react";
 const testimonials = [
   {
     quote: "IETECH helped me connect with amazing people, attend top-tier workshops, and grow immensely as a developer.",
-    author: "Alex Johnson",
-    role: "Web Lead"
+    author: "Ath Tripathi",
+    role: "Web Development"
   },
   {
     quote: "The hackathons organized by IETECH were the highlight of my semester. I learned more in 48 hours than in months of classes.",
-    author: "Sarah Jenkins",
-    role: "AI Enthusiast"
+    author: "Mayank Tripathi",
+    role: "Web Development"
   },
   {
     quote: "Joining the community gave me the mentorship I needed to land my first real internship in tech.",
-    author: "Michael Chang",
-    role: "Android Dev"
+    author: "Adarsh Gupta",
+    role: "Web Development"
   }
 ];
 

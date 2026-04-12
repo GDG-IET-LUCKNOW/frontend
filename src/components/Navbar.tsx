@@ -21,16 +21,11 @@ export function Navbar() {
           <Link href="/about" className="hover:text-primary transition-colors">About</Link>
           <Link href="/events" className="hover:text-primary transition-colors">Events</Link>
           <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
+          <Link href="/projects" className="hover:text-primary transition-colors">Projects</Link>
           <Link href="/team" className="hover:text-primary transition-colors">Team</Link>
         </nav>
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <Link
-            href="/join"
-            className="hidden md:inline-flex bg-foreground text-background px-4 py-2 rounded-full font-medium text-sm hover:opacity-90 transition-opacity"
-          >
-            Join Us
-          </Link>
         </div>
       </div>
     </header>

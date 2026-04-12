@@ -23,10 +23,11 @@ export default function EventsPage() {
              id: e._id || e.id,
              title: e.title || "Untitled Event",
              date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-             time: new Date(e.date || Date.now()).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
-             venue: e.venue || "Virtual",
+             time: e.time && e.time.trim() !== "" ? e.time : "TBA",
+             venue: e.location && e.location.trim() !== "" ? e.location : "Virtual",
              image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE,
              type: e.type || "Event",
+             registrationLink: e.registrationLink,
              status: new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming"
            }));
            setEvents(mappedEvents);
@@ -108,6 +109,13 @@ export default function EventsPage() {
                   </div>
                   
                   <button 
+                    onClick={(e) => {
+                      if (event.status !== 'Past' && event.registrationLink) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(event.registrationLink, "_blank");
+                      }
+                    }}
                     className={`w-full py-4 rounded-xl border flex items-center justify-center space-x-2 font-medium transition-all ${
                       event.status === 'Past' 
                       ? 'bg-background/20 border-glass-border text-foreground/50 cursor-not-allowed' 

@@ -37,10 +37,10 @@ export function CTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Link href="/join" className="group relative px-8 py-4 rounded-full font-bold text-lg overflow-hidden bg-foreground text-background transition-transform hover:scale-105 active:scale-95 inline-block cursor-pointer">
+          <a href="https://chat.whatsapp.com/DNRnsEzErLAGTgKQsyKrCb" target="_blank" rel="noreferrer" className="group relative px-8 py-4 rounded-full font-bold text-lg overflow-hidden bg-foreground text-background transition-transform hover:scale-105 active:scale-95 inline-block cursor-pointer">
             <span className="relative z-10">Become a Member</span>
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>

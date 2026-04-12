@@ -2,14 +2,84 @@
 import * as React from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
-import { Calendar, MapPin, Clock, ArrowLeft, ArrowRight, User, Users } from "lucide-react";
+import { Calendar, MapPin, Clock, ArrowLeft, ArrowRight, User, Users, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
+import { fetchEventById } from "@/api/api";
 
 export default function EventDetailPage() {
   const params = useParams();
   const { id } = params;
+
+  const [event, setEvent] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [lightboxIndex, setLightboxIndex] = React.useState<number | null>(null);
+
+  const nextImage = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex + 1) % allImages.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex - 1 + allImages.length) % allImages.length);
+    }
+  };
+
+  React.useEffect(() => {
+    if (id) {
+      setLoading(true);
+      fetchEventById(id as string).then(data => {
+        setEvent(data);
+        setLoading(false);
+      });
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <main className="flex-1 w-full flex flex-col items-center justify-center pt-32 pb-24 h-screen">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </main>
+    );
+  }
+
+  if (!event) {
+    return (
+      <main className="flex-1 w-full flex flex-col items-center justify-center pt-32 pb-24 h-screen">
+        <TextScramble as="h1" className="text-4xl font-bold tracking-tight mb-8 leading-tight">Event not found</TextScramble>
+        <Link href="/events" className="inline-flex items-center space-x-2 text-primary hover:underline transition-colors mt-4 font-medium">
+           <ArrowLeft className="w-4 h-4" />
+           <span>Back to Events</span>
+        </Link>
+      </main>
+    );
+  }
+
+  const title = event.title || "Untitled Event";
+  const dateStr = event.date ? new Date(event.date).toLocaleDateString() : (event.createdAt ? new Date(event.createdAt).toLocaleDateString() : "TBA");
+  const timeStr = event.time || "TBA";
+  const location = event.location || "TBA";
+  const capacity = event.capacity || "N/A";
+  const description = event.description || "No description provided.";
+  const type = event.type || "Event";
+  
+  let coverImage = "https://images.unsplash.com/photo-1639762681485-074b7f4ec651?auto=format&fit=crop&q=80&w=1200";
+  const allImages: string[] = [];
+  
+  if (event.media && event.media.length > 0) {
+    event.media.forEach((m: any) => {
+      if (m.url) allImages.push(m.url);
+    });
+  } else if (event.mediaUrl) {
+    allImages.push(event.mediaUrl);
+  }
+
+  if (allImages.length > 0) {
+    coverImage = allImages[0];
+  }
   
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
@@ -26,13 +96,19 @@ export default function EventDetailPage() {
           
           <div className="lg:col-span-2 flex flex-col">
             <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 mb-6 font-medium">
-              <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">Workshop</div>
+              <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">{type}</div>
             </div>
             
-            <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">Intro to GenAI with Google {id ? `(#${id})` : ''}</TextScramble>
+            <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">{title}</TextScramble>
             
-            <div className="w-full h-[350px] md:h-[450px] relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl">
-               <Image src="https://images.unsplash.com/photo-1639762681485-074b7f4ec651?auto=format&fit=crop&q=80&w=1200" alt="Event Cover" fill className="object-cover transition-transform hover:scale-105 duration-700" />
+            <div 
+               className="w-full h-[350px] md:h-[450px] relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group"
+               onClick={() => setLightboxIndex(0)}
+            >
+               <Image src={coverImage} alt="Event Cover" fill className="object-cover transition-transform group-hover:scale-105 duration-700" />
+               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
+               </div>
             </div>
             
             <motion.div
@@ -42,21 +118,41 @@ export default function EventDetailPage() {
                className="prose prose-invert prose-lg max-w-none mb-12 text-foreground/80 leading-relaxed"
             >
               <h2 className="text-2xl font-bold text-foreground mb-4">About this Event</h2>
-              <p className="mb-6">
-                Generative AI is changing the landscape of software development faster than ever before. Join us for this comprehensive technical deep dive into Google's latest Gemini models and Vertex AI infrastructure. We will cover the mechanics of LLMs, effective prompt engineering strategies, and how to programmatically integrate these models into your own applications using Python and Node.js.
-              </p>
-              <p>
-                This workshop is designed for developers of all skill levels. Whether you have never interacted with an AI API before, or you are looking to build complex RAG (Retrieval-Augmented Generation) pipelines, there is something here for you. Food and beverages will be provided.
-              </p>
-              
-              <h3 className="text-xl font-bold text-foreground mt-8 mb-4">What you will learn</h3>
-              <ul className="list-disc pl-6 space-y-2 text-primary/90 font-medium">
-                <li>Fundamentals of transformer architectures</li>
-                <li>API integrations with Vertex AI and Google AI Studio</li>
-                <li>Building custom AI Agents for web apps</li>
-                <li>Best practices for safety and context window management</li>
-              </ul>
+              {description.split('\n').map((paragraph: string, i: number) => (
+                <p key={i} className="mb-6">{paragraph}</p>
+              ))}
             </motion.div>
+
+            {allImages.length > 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="mb-12"
+              >
+                <h2 className="text-2xl font-bold text-foreground mb-6">Gallery</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {allImages.slice(1).map((img, i) => (
+                    <div 
+                      key={i} 
+                      className="aspect-square relative rounded-2xl overflow-hidden border border-glass-border shadow-lg group cursor-pointer"
+                      onClick={() => setLightboxIndex(i + 1)}
+                    >
+                      <Image 
+                        src={img} 
+                        alt={`Gallery ${i}`} 
+                        fill 
+                        className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <ArrowRight className="w-6 h-6 text-white -rotate-45" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
           
           <div className="lg:col-span-1">
@@ -75,7 +171,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <div className="font-bold">Date</div>
-                      <div className="text-foreground/70">October 12, 2026</div>
+                      <div className="text-foreground/70">{dateStr}</div>
                     </div>
                   </div>
                   
@@ -85,7 +181,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <div className="font-bold">Time</div>
-                      <div className="text-foreground/70">10:00 AM - 2:00 PM PST</div>
+                      <div className="text-foreground/70">{timeStr}</div>
                     </div>
                   </div>
                   
@@ -95,7 +191,7 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <div className="font-bold">Location</div>
-                      <div className="text-foreground/70">Main Auditorium, Building C</div>
+                      <div className="text-foreground/70">{location}</div>
                       <Link href="#" className="text-primary text-sm hover:underline mt-1 inline-block font-medium">View Map on Google</Link>
                     </div>
                   </div>
@@ -106,20 +202,84 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <div className="font-bold">Capacity</div>
-                      <div className="text-foreground/70 text-sm">Limited to 150 attendees</div>
+                      <div className="text-foreground/70 text-sm">{capacity} attendees</div>
                     </div>
                   </div>
                 </div>
                 
-                <button className="group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl border border-transparent">
-                  <span>RSVP Now</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
+                {(!event.date || new Date(event.date) >= new Date()) && event.registrationLink && (
+                  <button 
+                    onClick={() => window.open(event.registrationLink, "_blank")}
+                    className="group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl border border-transparent cursor-pointer"
+                  >
+                    <span>Register Now</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                )}
              </motion.div>
           </div>
           
         </div>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <motion.button
+              className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-[110]"
+              onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); }}
+            >
+              <X className="w-8 h-8" />
+            </motion.button>
+
+            <button
+              className="absolute left-4 md:left-8 text-white/50 hover:text-white transition-colors z-[110]"
+              onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            >
+              <ChevronLeft className="w-12 h-12" />
+            </button>
+
+            <div 
+              className="relative w-full max-w-5xl aspect-video md:aspect-[16/10] overflow-hidden rounded-3xl border border-white/10 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                key={lightboxIndex}
+                initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 1.1, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full"
+              >
+                <Image 
+                  src={allImages[lightboxIndex]} 
+                  alt={`Lightbox ${lightboxIndex}`} 
+                  fill 
+                  className="object-contain" 
+                />
+              </motion.div>
+            </div>
+
+            <button
+              className="absolute right-4 md:right-8 text-white/50 hover:text-white transition-colors z-[110]"
+              onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            >
+              <ChevronRight className="w-12 h-12" />
+            </button>
+
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 font-mono text-sm">
+              {lightboxIndex + 1} / {allImages.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

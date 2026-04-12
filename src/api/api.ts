@@ -11,6 +11,17 @@ export const fetchBlogs = async () => {
   }
 };
 
+export const fetchBlogById = async (id: string) => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/blogs/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch blog');
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    return null;
+  }
+};
+
 export const fetchEvents = async () => {
   try {
     const res = await fetch(`${BASE_URL}/api/events`);
@@ -22,6 +33,17 @@ export const fetchEvents = async () => {
   }
 };
 
+export const fetchEventById = async (id: string) => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/events/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch event');
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching event:", error);
+    return null;
+  }
+};
+
 export const fetchTeamMembers = async () => {
   try {
     const res = await fetch(`${BASE_URL}/api/team`);
@@ -30,5 +52,27 @@ export const fetchTeamMembers = async () => {
   } catch (error) {
     console.error("Error fetching team members:", error);
     return [];
+  }
+};
+
+export const fetchProjects = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/projects`);
+    if (!res.ok) throw new Error('Failed to fetch projects');
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    return [];
+  }
+};
+
+export const fetchProjectById = async (id: string) => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/projects/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch project');
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching project:", error);
+    return null;
   }
 };
