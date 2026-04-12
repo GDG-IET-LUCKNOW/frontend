@@ -29,7 +29,7 @@ export function TextScramble({
 }: TextScrambleProps) {
   const MotionComponent = motion.create(
     Component as keyof JSX.IntrinsicElements
-  );
+  ) as any;
   const ref = useRef<any>(null);
   const isInView = useInView(ref, { once: false, amount: "some" });
   
