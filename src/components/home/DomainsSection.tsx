@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { CopySlash, Cpu, Smartphone, Cloud, PenTool, GitBranch } from "lucide-react";
+import { CopySlash, Cpu, Smartphone, Cloud, PenTool, GitBranch, Terminal, ShieldCheck, MonitorSmartphone } from "lucide-react";
 import { HolographicCard } from "@/components/ui/holographic-card";
 import { TextScramble } from "@/components/ui/text-scramble";
 
@@ -26,7 +26,14 @@ const domains = [
     icon: Smartphone, 
     description: "Build scalable and performant mobile experiences.", 
     span: "col-span-1 md:col-span-1",
-    image: "https://images.unsplash.com/photo-1607252656733-fd7427187c33?auto=format&fit=crop&q=80&w=600"
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    title: "iOS",
+    icon: MonitorSmartphone,
+    description: "Develop elegant, native apps for the Apple ecosystem.",
+    span: "col-span-1 md:col-span-1",
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=600"
   },
   { 
     title: "Cloud", 
@@ -49,6 +56,20 @@ const domains = [
     span: "col-span-1 md:col-span-2",
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600"
   },
+  {
+    title: "Competitive Programming (CP)",
+    icon: Terminal,
+    description: "Master data structures, algorithms, and logical problem-solving.",
+    span: "col-span-1 md:col-span-1",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600"
+  },
+  {
+    title: "Cyber Security",
+    icon: ShieldCheck,
+    description: "Learn ethical hacking, cryptography, and securing modern systems.",
+    span: "col-span-1 md:col-span-1",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80"
+  }
 ];
 
 export function DomainsSection() {

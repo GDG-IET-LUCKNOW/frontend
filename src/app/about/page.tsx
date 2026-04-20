@@ -22,18 +22,18 @@ export default function AboutPage() {
             className="relative z-10 space-y-8 text-lg text-foreground/80 leading-relaxed max-w-4xl mx-auto"
           >
             <p className="text-xl md:text-2xl text-foreground font-medium">
-              IETECH is an independent, dynamic university-based technology community focused on architecting the next era of engineering and scientific innovation.
+              IETECH is the premier technical community at the Institute of Engineering and Technology (IET) Lucknow, dedicated to architecting the next era of engineering and scientific innovation on our campus.
             </p>
-            <p className="text-foreground/70">
-              Students from all undergraduate or graduate programs with an interest in growing as developers, engineers, and researchers are welcome. By joining IETECH, members elevate their foundational knowledge within a peer-to-peer intensive lab environment and formulate breakthrough solutions addressing highly complex localized and global constraints.
+            <p className="text-foreground/70 text-lg leading-relaxed">
+              Students from all branches at IET Lucknow with an interest in growing as developers, engineers, and researchers are welcome. By joining IETECH, you become part of a passionate peer-to-peer network right here at IET. Our members elevate their foundational knowledge through intensive workshops, collaborate on hackathons, and formulate breakthrough solutions addressing both localized campus needs and global technical challenges.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-12">
               {[
-                { icon: Code, title: "Learn via Workshops", desc: "Gain hands-on experience covering the latest trends in UI/UX, Cloud, AI, and Android." },
-                { icon: Users, title: "Connect with Peers", desc: "Meet students interested in developer technologies at your university." },
-                { icon: Megaphone, title: "Innovate Solutions", desc: "Apply new learnings to build great solutions for local problems." },
-                { icon: Globe2, title: "Global Network", desc: "Gain connections that can lead to potential career and industry placements." }
+                { icon: Code, title: "Learn via Workshops", desc: "Gain hands-on experience covering the latest trends in UI/UX, Cloud, AI, and App Development." },
+                { icon: Users, title: "Connect with Peers", desc: "Meet passionate students interested in developer technologies across all branches at IET Lucknow." },
+                { icon: Megaphone, title: "Innovate Solutions", desc: "Apply new learnings to build great solutions for IET campus and local community problems." },
+                { icon: Globe2, title: "Global & Campus Network", desc: "Build connections with seniors and alumni that can lead to potential career and industry placements." }
               ].map((item, idx) => (
                  <div key={item.title} className="flex flex-col space-y-4 p-8 rounded-3xl bg-background/40 border border-glass-border hover:bg-glass/80 transition-all duration-300 group">
                     <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all">

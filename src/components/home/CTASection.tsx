@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { TextScramble } from "@/components/ui/text-scramble";
 
 export function CTASection() {
   return (
@@ -21,15 +22,16 @@ export function CTASection() {
           <span className="text-sm font-medium">Join the next generation of builders</span>
         </motion.div>
         
-        <motion.h2 
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/50"
         >
-          Ready to Join <br /> the Future?
-        </motion.h2>
+          <TextScramble as="span" className="block" duration={1.2}>Ready to Join</TextScramble>
+          <TextScramble as="span" className="block" duration={1.5}>the Future?</TextScramble>
+        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}

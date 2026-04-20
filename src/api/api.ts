@@ -76,3 +76,14 @@ export const fetchProjectById = async (id: string) => {
     return null;
   }
 };
+
+export const fetchCommunityStories = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/community`);
+    if (!res.ok) throw new Error('Failed to fetch community stories');
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching community stories:", error);
+    return [];
+  }
+};

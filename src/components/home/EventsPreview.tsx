@@ -24,7 +24,9 @@ export function EventsPreview() {
              id: e._id || e.id,
              title: e.title || "Untitled",
              date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-             venue: e.venue || "Virtual",
+             venue: e.location && e.location.trim() !== "" ? e.location : "Virtual",
+             registrationLink: e.registrationLink,
+             status: new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming",
              image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE
            }));
            setEvents(mappedEvents);
@@ -46,7 +48,7 @@ export function EventsPreview() {
       <div className="max-w-6xl mx-auto px-4 z-10 relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <TextScramble as="h2" className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Upcoming Events</TextScramble>
+            <TextScramble as="h2" duration={1.2} className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Upcoming Events</TextScramble>
             <p className="text-foreground/60 max-w-xl">
               Don't miss out on our latest workshops, hackathons, and speaker sessions.
             </p>
@@ -67,42 +69,59 @@ export function EventsPreview() {
             </div>
           ) : (
             events.map((event, idx) => (
-            <motion.div
-              key={event.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group flex flex-col bg-glass border border-glass-border backdrop-blur-xl rounded-[2rem] overflow-hidden"
-            >
-              <div className="relative w-full h-48 overflow-hidden">
-                <Image
-                  src={event.image}
-                  alt={event.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-              </div>
-              
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">{event.title}</h3>
-                <div className="flex flex-col space-y-2 mt-auto mb-6 text-sm text-foreground/70">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    <span>{event.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4 text-primary" />
-                    <span>{event.venue}</span>
-                  </div>
+            <Link key={event.id} href={`/events/${event.id}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group h-full flex flex-col bg-glass border border-glass-border backdrop-blur-xl rounded-[2rem] overflow-hidden hover:border-primary/50 transition-colors duration-500 shadow-xl"
+              >
+                <div className="relative w-full h-48 overflow-hidden">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 </div>
                 
-                <button className="w-full py-3 rounded-xl bg-background/50 border border-glass-border hover:bg-primary hover:text-primary-foreground transition-colors font-medium">
-                  Register Now
-                </button>
-              </div>
-            </motion.div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">{event.title}</h3>
+                  <div className="flex flex-col space-y-2 mt-auto mb-6 text-sm text-foreground/70">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span>{event.date}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <span>{event.venue}</span>
+                    </div>
+                  </div>
+                  
+                  <button 
+                    onClick={(e) => {
+                      if (event.status !== 'Past' && event.registrationLink) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(event.registrationLink, "_blank");
+                      } else if (event.status !== 'Past') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }
+                    }}
+                    className={`w-full py-3 rounded-xl border flex items-center justify-center space-x-2 font-medium transition-all ${
+                      event.status === 'Past' 
+                      ? 'bg-background/20 border-glass-border text-foreground/50 cursor-not-allowed' 
+                      : 'bg-primary/10 border-primary/30 hover:bg-primary hover:text-primary-foreground text-primary'
+                    }`}
+                  >
+                    {event.status === 'Past' ? 'View Details' : 'Register Now'}
+                  </button>
+                </div>
+              </motion.div>
+            </Link>
           )))}
         </div>
       </div>
