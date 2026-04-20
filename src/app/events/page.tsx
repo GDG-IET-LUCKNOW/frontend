@@ -22,13 +22,14 @@ export default function EventsPage() {
            const mappedEvents = data.map((e: any) => ({
              id: e._id || e.id,
              title: e.title || "Untitled Event",
-             date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-             time: e.time && e.time.trim() !== "" ? e.time : "TBA",
-             venue: e.location && e.location.trim() !== "" ? e.location : "Virtual",
+             date: e.isTBA ? "To Be Announced" : new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+             time: e.isTBA ? "To Be Announced" : (e.time && e.time.trim() !== "" ? e.time : "To Be Announced"),
+             venue: e.isTBA ? "To Be Announced" : (e.location && e.location.trim() !== "" ? e.location : "Virtual"),
              image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE,
              type: e.type || "Event",
              registrationLink: e.registrationLink,
-             status: new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming"
+             isTBA: e.isTBA || false,
+             status: e.isTBA ? "Upcoming" : (new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming")
            }));
            setEvents(mappedEvents);
         }
@@ -122,8 +123,8 @@ export default function EventsPage() {
                       : 'bg-primary/10 border-primary/30 hover:bg-primary hover:text-primary-foreground text-primary'
                     }`}
                   >
-                    <span>{event.status === 'Past' ? 'View Details' : 'Register Now'}</span>
-                    {event.status !== 'Past' && <ArrowRight className="w-4 h-4" />}
+                    <span>{event.status === 'Past' ? 'View Details' : (event.isTBA ? 'To Be Announced' : 'Register Now')}</span>
+                    {event.status !== 'Past' && !event.isTBA && <ArrowRight className="w-4 h-4" />}
                   </button>
                 </div>
               </motion.div>

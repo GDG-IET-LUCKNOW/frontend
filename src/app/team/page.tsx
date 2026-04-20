@@ -34,7 +34,8 @@ export default function TeamPage() {
              branch: t.branch || "General",
              year: t.year || "1st",
              github: t.github || "",
-             linkedin: t.linkedin || ""
+             linkedin: t.linkedin || "",
+             imageUrl: t.imageUrl || ""
            }));
            setTeamMembers(mappedTeam);
         }
@@ -78,9 +79,15 @@ export default function TeamPage() {
               onClick={() => setSelectedMember(member)}
               className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer"
             >
-              <div className="w-20 h-20 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-3xl font-bold mb-6 group-hover:scale-110 transition-transform duration-500 uppercase shrink-0">
-                 {member.name.charAt(0)}
-              </div>
+              {member.imageUrl ? (
+                <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                  <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-20 h-20 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-3xl font-bold mb-6 group-hover:scale-110 transition-transform duration-500 uppercase shrink-0 shadow-lg">
+                   {member.name.charAt(0)}
+                </div>
+              )}
               <h3 className="text-3xl font-bold mb-2 group-hover:text-primary transition-colors">{member.name}</h3>
               <p className="text-primary font-bold mb-0 uppercase tracking-widest text-sm">{member.domainName}</p>
             </motion.div>
@@ -111,9 +118,15 @@ export default function TeamPage() {
               <div className="p-8 flex flex-col items-center text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/20 to-transparent pointer-events-none" />
                 
-                <div className="w-24 h-24 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-4xl font-bold mb-6 uppercase z-10 relative shadow-xl shadow-primary/20 shrink-0">
-                   {selectedMember.name.charAt(0)}
-                </div>
+                {selectedMember.imageUrl ? (
+                  <div className="w-24 h-24 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 z-10 relative shadow-xl shadow-primary/20">
+                    <img src={selectedMember.imageUrl} alt={selectedMember.name} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-4xl font-bold mb-6 uppercase z-10 relative shadow-xl shadow-primary/20 shrink-0">
+                     {selectedMember.name.charAt(0)}
+                  </div>
+                )}
                 
                 <h2 className="text-3xl font-bold mb-2 relative z-10">{selectedMember.name}</h2>
                 <p className="text-primary font-bold mb-6 uppercase tracking-widest text-sm relative z-10">{selectedMember.domainName}</p>

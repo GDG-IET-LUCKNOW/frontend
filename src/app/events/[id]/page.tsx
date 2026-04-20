@@ -59,10 +59,11 @@ export default function EventDetailPage() {
   }
 
   const title = event.title || "Untitled Event";
-  const dateStr = event.date ? new Date(event.date).toLocaleDateString() : (event.createdAt ? new Date(event.createdAt).toLocaleDateString() : "TBA");
-  const timeStr = event.time || "TBA";
-  const location = event.location || "TBA";
-  const capacity = event.capacity || "N/A";
+  const isTBA = event.isTBA || false;
+  const dateStr = isTBA ? "To Be Announced" : (event.date ? new Date(event.date).toLocaleDateString() : (event.createdAt ? new Date(event.createdAt).toLocaleDateString() : "To Be Announced"));
+  const timeStr = isTBA ? "To Be Announced" : (event.time || "To Be Announced");
+  const location = isTBA ? "To Be Announced" : (event.location || "To Be Announced");
+  const capacity = isTBA ? "To Be Announced" : (event.capacity || "N/A");
   const description = event.description || "No description provided.";
   const type = event.type || "Event";
   
@@ -192,7 +193,7 @@ export default function EventDetailPage() {
                     <div>
                       <div className="font-bold">Location</div>
                       <div className="text-foreground/70">{location}</div>
-                      <Link href="#" className="text-primary text-sm hover:underline mt-1 inline-block font-medium">View Map on Google</Link>
+                      {!isTBA && event.location && <Link href="#" className="text-primary text-sm hover:underline mt-1 inline-block font-medium">View Map on Google</Link>}
                     </div>
                   </div>
                   
@@ -207,13 +208,13 @@ export default function EventDetailPage() {
                   </div>
                 </div>
                 
-                {(!event.date || new Date(event.date) >= new Date()) && event.registrationLink && (
+                {(!event.date || new Date(event.date) >= new Date() || isTBA) && (
                   <button 
-                    onClick={() => window.open(event.registrationLink, "_blank")}
-                    className="group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl border border-transparent cursor-pointer"
+                    onClick={() => { if (!isTBA && event.registrationLink) window.open(event.registrationLink, "_blank"); }}
+                    className={`group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all shadow-xl border ${isTBA || !event.registrationLink ? 'bg-background/20 border-glass-border text-foreground/50 cursor-not-allowed' : 'bg-primary hover:bg-primary/90 text-primary-foreground border-transparent cursor-pointer'}`}
                   >
-                    <span>Register Now</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <span>{isTBA ? 'To Be Announced' : (event.registrationLink ? 'Register Now' : 'Registration Closed')}</span>
+                    {!isTBA && event.registrationLink && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
                   </button>
                 )}
              </motion.div>

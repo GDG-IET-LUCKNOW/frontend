@@ -23,10 +23,11 @@ export function EventsPreview() {
            const mappedEvents = data.slice(0, 3).map((e: any) => ({
              id: e._id || e.id,
              title: e.title || "Untitled",
-             date: new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-             venue: e.location && e.location.trim() !== "" ? e.location : "Virtual",
-             registrationLink: e.registrationLink,
-             status: new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming",
+             date: e.isTBA ? "To Be Announced" : new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+             venue: e.isTBA ? "To Be Announced" : (e.location && e.location.trim() !== "" ? e.location : "Virtual"),
+             registrationLink: e.isTBA ? undefined : e.registrationLink,
+             isTBA: e.isTBA || false,
+             status: e.isTBA ? "Upcoming" : (new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming"),
              image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE
            }));
            setEvents(mappedEvents);
@@ -102,11 +103,11 @@ export function EventsPreview() {
                   
                   <button 
                     onClick={(e) => {
-                      if (event.status !== 'Past' && event.registrationLink) {
+                      if (event.status !== 'Past' && !event.isTBA && event.registrationLink) {
                         e.preventDefault();
                         e.stopPropagation();
                         window.open(event.registrationLink, "_blank");
-                      } else if (event.status !== 'Past') {
+                      } else if (event.status !== 'Past' || event.isTBA) {
                         e.preventDefault();
                         e.stopPropagation();
                       }
@@ -117,7 +118,7 @@ export function EventsPreview() {
                       : 'bg-primary/10 border-primary/30 hover:bg-primary hover:text-primary-foreground text-primary'
                     }`}
                   >
-                    {event.status === 'Past' ? 'View Details' : 'Register Now'}
+                    {event.status === 'Past' ? 'View Details' : (event.isTBA ? 'To Be Announced' : 'Register Now')}
                   </button>
                 </div>
               </motion.div>
