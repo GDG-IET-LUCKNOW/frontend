@@ -35,7 +35,8 @@ export default function TeamPage() {
              year: t.year || "1st",
              github: t.github || "",
              linkedin: t.linkedin || "",
-             imageUrl: t.imageUrl || ""
+             imageUrl: t.imageUrl || t.image || "",
+             status: t.status || "active"
            }));
            setTeamMembers(mappedTeam);
         }
@@ -47,6 +48,9 @@ export default function TeamPage() {
     };
     loadTeam();
   }, []);
+
+  const currentMembers = teamMembers.filter(m => m.status !== "past");
+  const pastMembers = teamMembers.filter(m => m.status === "past");
 
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
@@ -65,17 +69,18 @@ export default function TeamPage() {
             <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading team members...</p>
             </div>
-          ) : teamMembers.length === 0 ? (
+          ) : currentMembers.length === 0 ? (
             <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Team members will be revealed shortly!</p>
             </div>
           ) : (
-            teamMembers.map((member, idx) => (
+            currentMembers.map((member, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
               onClick={() => setSelectedMember(member)}
               className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer"
             >
@@ -93,6 +98,42 @@ export default function TeamPage() {
             </motion.div>
           )))}
         </div>
+
+        {/* Past Members Section */}
+        {pastMembers.length > 0 && !isLoading && (
+          <div className="mt-32">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground/80">Past Members</h2>
+              <div className="h-1 w-20 bg-primary/30 mx-auto rounded-full" />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+              {pastMembers.map((member, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  onClick={() => setSelectedMember(member)}
+                  className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer h-full"
+                >
+                  {member.imageUrl ? (
+                    <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-3xl font-bold mb-6 group-hover:scale-110 transition-transform duration-500 uppercase shrink-0 shadow-lg">
+                       {member.name.charAt(0)}
+                    </div>
+                  )}
+                  <h3 className="text-3xl font-bold mb-2 group-hover:text-primary transition-colors">{member.name}</h3>
+                  <p className="text-primary font-bold mb-0 uppercase tracking-widest text-sm">{member.domainName}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

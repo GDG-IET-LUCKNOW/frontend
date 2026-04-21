@@ -1,4 +1,8 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Mail } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
   <svg
@@ -46,6 +50,16 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 );
 
 export function Footer() {
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = theme === "system" ? resolvedTheme : theme;
+  const logoSrc = mounted && currentTheme === "dark" ? "/logo-dark.png" : "/logo-light.jpg";
+
   return (
     <footer className="border-t border-glass-border bg-background/50 backdrop-blur-lg pt-24 pb-8 px-4 relative overflow-hidden">
       {/* Subtle Background Glow */}
@@ -56,7 +70,11 @@ export function Footer() {
         {/* Left Side: Branding & Tagline */}
         <div className="flex flex-col items-center md:items-start space-y-6 max-w-xl text-center md:text-left">
           <div className="flex flex-col md:flex-row md:items-end items-center space-y-2 md:space-y-0 md:space-x-4">
-            <span className="font-extrabold text-4xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-primary">IETECH</span>
+            <div className="flex items-center space-x-3">
+              {mounted && <img src={logoSrc} alt="IETECH Logo" className="w-10 h-10 object-contain drop-shadow-md rounded-lg" />}
+              {!mounted && <div className="w-10 h-10 bg-transparent" />}
+              <span className="font-extrabold text-4xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-primary">IETECH</span>
+            </div>
             <div className="h-6 w-px bg-glass-border hidden md:block"></div>
             <span className="text-foreground/70 font-semibold text-xl tracking-wide">IET Lucknow</span>
           </div>

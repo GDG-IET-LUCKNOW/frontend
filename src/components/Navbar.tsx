@@ -8,10 +8,19 @@ import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Image from "next/image";
-import logo from "../../logo.png";
+import { useTheme } from "next-themes";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = theme === "system" ? resolvedTheme : theme;
+  const logoSrc = mounted && currentTheme === "dark" ? "/logo-dark.png" : "/logo-light.jpg";
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -26,7 +35,8 @@ export function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 px-4 py-4 md:py-6 transition-all duration-300">
       <div className="max-w-6xl mx-auto rounded-2xl bg-glass border border-glass-border backdrop-blur-xl shadow-lg flex items-center justify-between px-6 py-3 relative z-50">
         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center space-x-2">
-          <Image src={logo} alt="IETECH Logo" width={32} height={32} className="object-contain drop-shadow-md" />
+          {mounted && <img src={logoSrc} alt="IETECH Logo" className="w-8 h-8 object-contain drop-shadow-md rounded-lg" />}
+          {!mounted && <div className="w-8 h-8 bg-transparent" /> /* placeholder to prevent shifting */}
           <span className="font-bold text-lg tracking-tight">IETECH</span>
         </Link>
         
