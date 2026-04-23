@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
-import { fetchEvents } from "@/api/api";
+import { fetchEvents, formatImageUrl } from "@/api/api";
 
 const FALLBACK_IMAGE = "/hero-image.png";
 
@@ -25,7 +25,7 @@ export default function EventsPage() {
              date: e.isTBA ? "To Be Announced" : new Date(e.date || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
              time: e.isTBA ? "To Be Announced" : (e.time && e.time.trim() !== "" ? e.time : "To Be Announced"),
              venue: e.isTBA ? "To Be Announced" : (e.location && e.location.trim() !== "" ? e.location : "Virtual"),
-             image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE,
+             image: (e.media && e.media.length > 0 && e.media[0].url) ? formatImageUrl(e.media[0].url) : FALLBACK_IMAGE,
              type: e.type || "Event",
              registrationLink: e.registrationLink,
              isTBA: e.isTBA || false,

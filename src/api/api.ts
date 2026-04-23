@@ -1,5 +1,14 @@
 const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://gdg-backend-dx5f.onrender.com').replace(/\/$/, '');
 
+export const formatImageUrl = (url: string) => {
+  if (!url) return "";
+  if (url.includes('drive.google.com') || url.includes('googleusercontent.com')) {
+    const idMatch = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/&?]+)/) || url.match(/\/d\/([^=]+)/);
+    if (idMatch) return `https://lh3.googleusercontent.com/d/${idMatch[1]}=w1000`;
+  }
+  return url;
+};
+
 export const fetchBlogs = async () => {
   try {
     const res = await fetch(`${BASE_URL}/api/blogs`);

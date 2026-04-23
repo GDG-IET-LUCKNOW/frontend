@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
-import { fetchBlogs } from "@/api/api";
+import { fetchBlogs, formatImageUrl } from "@/api/api";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=600";
 
@@ -25,7 +25,7 @@ export default function BlogPage() {
              date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
              readTime: "5 min read",
              category: "Tech",
-             image: (b.media && b.media.length > 0 && b.media[0].url) ? b.media[0].url : FALLBACK_IMAGE
+             image: (b.media && b.media.length > 0 && b.media[0].url) ? formatImageUrl(b.media[0].url) : FALLBACK_IMAGE
            }));
            setPosts(mappedBlogs);
         }

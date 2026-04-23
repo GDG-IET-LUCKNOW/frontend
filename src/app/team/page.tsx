@@ -2,7 +2,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
-import { fetchTeamMembers } from "@/api/api";
+import { fetchTeamMembers, formatImageUrl } from "@/api/api";
 import { X } from "lucide-react";
 
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -86,7 +86,7 @@ export default function TeamPage() {
             >
               {member.imageUrl ? (
                 <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                  <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" />
+                  <img src={formatImageUrl(member.imageUrl)} alt={member.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
                 <div className="w-20 h-20 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-3xl font-bold mb-6 group-hover:scale-110 transition-transform duration-500 uppercase shrink-0 shadow-lg">
@@ -120,7 +120,7 @@ export default function TeamPage() {
                 >
                   {member.imageUrl ? (
                     <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                      <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                      <img src={formatImageUrl(member.imageUrl)} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
                     </div>
                   ) : (
                     <div className="w-20 h-20 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-3xl font-bold mb-6 group-hover:scale-110 transition-transform duration-500 uppercase shrink-0 shadow-lg">
@@ -161,7 +161,7 @@ export default function TeamPage() {
                 
                 {selectedMember.imageUrl ? (
                   <div className="w-24 h-24 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 z-10 relative shadow-xl shadow-primary/20">
-                    <img src={selectedMember.imageUrl} alt={selectedMember.name} className="w-full h-full object-cover" />
+                    <img src={formatImageUrl(selectedMember.imageUrl)} alt={selectedMember.name} className="w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className="w-24 h-24 rounded-full bg-primary/20 text-primary border-2 border-primary/30 flex items-center justify-center text-4xl font-bold mb-6 uppercase z-10 relative shadow-xl shadow-primary/20 shrink-0">
