@@ -6,7 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { ArrowLeft, ArrowRight, Globe, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
-import { fetchProjectById } from "@/api/api";
+import { fetchProjectById, formatImageUrl } from "@/api/api";
+
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+  </svg>
+);
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -20,9 +26,9 @@ export default function ProjectDetailPage() {
     if (!project) return [];
     const imgs: string[] = [];
     if (project.media && project.media.length > 0) {
-      project.media.forEach((m: any) => { if (m.url) imgs.push(m.url); });
+      project.media.forEach((m: any) => { if (m.url) imgs.push(formatImageUrl(m.url)); });
     } else if (project.mediaUrl) {
-      imgs.push(project.mediaUrl);
+      imgs.push(formatImageUrl(project.mediaUrl));
     }
     return imgs;
   }, [project]);
@@ -108,7 +114,7 @@ export default function ProjectDetailPage() {
               className="w-full h-[320px] md:h-[420px] relative rounded-[2rem] overflow-hidden mb-10 border border-glass-border shadow-2xl cursor-pointer group"
               onClick={() => setLightboxIndex(0)}
             >
-              <Image src={coverImage} alt="Project Cover" fill className="object-cover transition-transform group-hover:scale-105 duration-700" />
+              <Image src={coverImage} alt="Project Cover" fill className="object-cover transition-transform group-hover:scale-105 duration-700" unoptimized />
               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
               </div>
@@ -146,7 +152,7 @@ export default function ProjectDetailPage() {
                       className="aspect-square relative rounded-2xl overflow-hidden border border-glass-border shadow-lg group cursor-pointer"
                       onClick={() => setLightboxIndex(i + 1)}
                     >
-                      <Image src={img} alt={`Gallery ${i + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                      <Image src={img} alt={`Gallery ${i + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" unoptimized />
                       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <ArrowRight className="w-6 h-6 text-white -rotate-45" />
                       </div>
@@ -189,16 +195,30 @@ export default function ProjectDetailPage() {
                 </div>
               )}
 
-              {/* GitHub Button */}
+              {/* GitHub (Source) Button */}
               {project.githubLink && (
                 <a
                   href={project.githubLink}
                   target="_blank"
                   rel="noreferrer"
+                  className="group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all bg-white/5 hover:bg-white/10 text-foreground shadow-xl border border-glass-border cursor-pointer"
+                >
+                  <GithubIcon className="w-5 h-5" />
+                  <span>View Source</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              )}
+
+              {/* Live Preview Button */}
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noreferrer"
                   className="group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl border border-transparent cursor-pointer"
                 >
                   <Globe className="w-5 h-5" />
-                  <span>View Source</span>
+                  <span>Live Preview</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
               )}
@@ -234,7 +254,7 @@ export default function ProjectDetailPage() {
                 transition={{ duration: 0.3 }}
                 className="w-full h-full"
               >
-                <Image src={allImages[lightboxIndex]} alt={`Lightbox ${lightboxIndex}`} fill className="object-contain" />
+                <Image src={allImages[lightboxIndex]} alt={`Lightbox ${lightboxIndex}`} fill className="object-contain" unoptimized />
               </motion.div>
             </div>
 

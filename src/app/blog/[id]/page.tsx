@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { Calendar, Clock, ArrowLeft, ArrowRight, User, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
-import { fetchBlogById } from "@/api/api";
+import { fetchBlogById, formatImageUrl } from "@/api/api";
 
 export default function BlogDetailPage() {
   const params = useParams();
@@ -66,10 +66,10 @@ export default function BlogDetailPage() {
   
   if (blog.media && blog.media.length > 0) {
     blog.media.forEach((m: any) => {
-      if (m.url) allImages.push(m.url);
+      if (m.url) allImages.push(formatImageUrl(m.url));
     });
   } else if (blog.mediaUrl) {
-    allImages.push(blog.mediaUrl);
+    allImages.push(formatImageUrl(blog.mediaUrl));
   }
 
   return (
@@ -85,7 +85,6 @@ export default function BlogDetailPage() {
         <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 mb-6 font-medium">
           <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">Article</div>
           <div className="flex items-center space-x-2"><Calendar className="w-4 h-4" /><span>{dateStr}</span></div>
-          <div className="flex items-center space-x-2"><Clock className="w-4 h-4" /><span>{Math.ceil(content.length / 500)} min read</span></div>
         </div>
         
         <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">{title}</TextScramble>
@@ -111,7 +110,7 @@ export default function BlogDetailPage() {
               className="w-full h-[400px] md:h-[500px] relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group"
               onClick={() => setLightboxIndex(0)}
             >
-               <Image src={allImages[0]} alt="Blog Header" fill className="object-cover transition-transform group-hover:scale-105 duration-700" />
+               <Image src={allImages[0]} alt="Blog Header" fill className="object-cover transition-transform group-hover:scale-105 duration-700" unoptimized />
                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
                </div>
@@ -132,7 +131,7 @@ export default function BlogDetailPage() {
                   className="aspect-video relative rounded-2xl overflow-hidden border border-glass-border shadow-xl hover:shadow-primary/10 transition-all group cursor-pointer"
                   onClick={() => setLightboxIndex(i + 1)}
                 >
-                  <Image src={img} alt={`Gallery ${i}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <Image src={img} alt={`Gallery ${i}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
                   <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <ArrowRight className="w-8 h-8 text-white -rotate-45" />
                   </div>
@@ -184,6 +183,7 @@ export default function BlogDetailPage() {
                   alt={`Lightbox ${lightboxIndex}`} 
                   fill 
                   className="object-contain" 
+                  unoptimized
                 />
               </motion.div>
             </div>

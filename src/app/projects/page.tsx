@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { ArrowRight } from "lucide-react";
-import { fetchProjects } from "@/api/api";
+import { fetchProjects, formatImageUrl } from "@/api/api";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1604933762023-7213af7ff7a7?auto=format&fit=crop&q=80&w=800";
 
@@ -49,7 +49,7 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, idx) => {
               const images: string[] = project.media?.map((m: any) => m.url).filter(Boolean) || [];
-              const cover = images[0] || FALLBACK_IMAGE;
+              const cover = images[0] ? formatImageUrl(images[0]) : FALLBACK_IMAGE;
               const techStack: string[] = Array.isArray(project.techStack) ? project.techStack : [];
 
               return (
@@ -62,12 +62,11 @@ export default function ProjectsPage() {
                   >
                     {/* Cover Image */}
                     <div className="relative w-full h-52 overflow-hidden">
-                      <Image
+                      <img
                         src={cover}
                         alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        unoptimized
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                       {images.length > 1 && (

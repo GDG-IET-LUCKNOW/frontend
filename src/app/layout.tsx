@@ -20,6 +20,9 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "IETECH Community",
   description: "Build. Learn. Connect. The official IETECH community.",
+  icons: {
+    icon: "/logo-dark.png",
+  },
 };
 
 export default function RootLayout({

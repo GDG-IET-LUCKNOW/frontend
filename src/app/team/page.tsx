@@ -173,11 +173,11 @@ export default function TeamPage() {
                 <p className="text-primary font-bold mb-6 uppercase tracking-widest text-sm relative z-10">{selectedMember.domainName}</p>
                 
                 <div className="w-full grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center">
+                  <div className="bg-glass border border-glass-border rounded-2xl p-4 flex flex-col items-center justify-center">
                     <span className="text-foreground/50 text-xs font-semibold uppercase tracking-wider mb-1">Branch</span>
                     <span className="text-foreground font-medium">{selectedMember.branch}</span>
                   </div>
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center">
+                  <div className="bg-glass border border-glass-border rounded-2xl p-4 flex flex-col items-center justify-center">
                     <span className="text-foreground/50 text-xs font-semibold uppercase tracking-wider mb-1">Year</span>
                     <span className="text-foreground font-medium">{selectedMember.year}</span>
                   </div>
@@ -185,24 +185,24 @@ export default function TeamPage() {
 
                 <div className="flex space-x-4 w-full">
                   {selectedMember.github ? (
-                    <a href={selectedMember.github} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center space-x-2 bg-white/5 hover:bg-white/10 border border-white/10 p-3 rounded-xl transition-colors">
+                    <a href={selectedMember.github} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center space-x-2 bg-glass hover:bg-glass/80 border border-glass-border p-3 rounded-xl transition-colors">
                       <GithubIcon className="w-5 h-5" />
-                      <span className="font-medium">GitHub</span>
+                      <span className="font-medium text-foreground">GitHub</span>
                     </a>
                   ) : (
-                    <div className="flex-1 flex items-center justify-center space-x-2 bg-white/5 border border-white/10 p-3 rounded-xl opacity-50 cursor-not-allowed text-foreground/50">
+                    <div className="flex-1 flex items-center justify-center space-x-2 bg-glass border border-glass-border p-3 rounded-xl opacity-50 cursor-not-allowed text-foreground/50">
                       <GithubIcon className="w-5 h-5" />
                       <span className="font-medium">No GitHub</span>
                     </div>
                   )}
                   
                   {selectedMember.linkedin ? (
-                    <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center space-x-2 bg-[#0A66C2]/10 hover:bg-[#0A66C2]/20 text-[#3b8bd6] border border-[#0A66C2]/20 p-3 rounded-xl transition-colors">
+                    <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center space-x-2 bg-[#0A66C2]/10 hover:bg-[#0A66C2]/20 text-[#0A66C2] border border-[#0A66C2]/30 p-3 rounded-xl transition-colors">
                       <LinkedinIcon className="w-5 h-5" />
                       <span className="font-medium">LinkedIn</span>
                     </a>
                   ) : (
-                    <div className="flex-1 flex items-center justify-center space-x-2 bg-white/5 border border-white/10 p-3 rounded-xl opacity-50 cursor-not-allowed text-foreground/50">
+                    <div className="flex-1 flex items-center justify-center space-x-2 bg-glass border border-glass-border p-3 rounded-xl opacity-50 cursor-not-allowed text-foreground/50">
                       <LinkedinIcon className="w-5 h-5" />
                       <span className="font-medium">No LinkedIn</span>
                     </div>

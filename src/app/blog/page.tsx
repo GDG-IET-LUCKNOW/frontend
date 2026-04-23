@@ -23,7 +23,6 @@ export default function BlogPage() {
              excerpt: b.content ? b.content.substring(0, 120) + "..." : "A deep dive into how changing the way we build modern web applications and optimizing bundle sizes.",
              author: b.author || "GDG Team",
              date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-             readTime: "5 min read",
              category: "Tech",
              image: (b.media && b.media.length > 0 && b.media[0].url) ? formatImageUrl(b.media[0].url) : FALLBACK_IMAGE
            }));
@@ -72,12 +71,11 @@ export default function BlogPage() {
                   <div className="absolute top-4 left-4 z-10 bg-background/80 backdrop-blur border border-glass-border px-4 py-1 rounded-full text-xs font-semibold text-primary">
                     {post.category}
                   </div>
-                  <Image
+                  <img
                     src={post.image}
                     alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 
@@ -94,11 +92,7 @@ export default function BlogPage() {
                       </div>
                       <span>{post.author}</span>
                     </div>
-                    <div className="flex items-center space-x-3">
                       <span>{post.date}</span>
-                      <span className="w-1 h-1 rounded-full bg-glass-border" />
-                      <span>{post.readTime}</span>
-                    </div>
                   </div>
                 </div>
               </motion.div>

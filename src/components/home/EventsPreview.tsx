@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import { TextScramble } from "@/components/ui/text-scramble";
-import { fetchEvents } from "@/api/api";
+import { fetchEvents, formatImageUrl } from "@/api/api";
 
 const FALLBACK_IMAGE = "/hero-image.png";
 
@@ -28,7 +28,7 @@ export function EventsPreview() {
              registrationLink: e.isTBA ? undefined : e.registrationLink,
              isTBA: e.isTBA || false,
              status: e.isTBA ? "Upcoming" : (new Date(e.date || Date.now()) < new Date() ? "Past" : "Upcoming"),
-             image: (e.media && e.media.length > 0 && e.media[0].url) ? e.media[0].url : FALLBACK_IMAGE
+             image: (e.media && e.media.length > 0 && e.media[0].url) ? formatImageUrl(e.media[0].url) : FALLBACK_IMAGE
            }));
            setEvents(mappedEvents);
         }
@@ -79,12 +79,11 @@ export function EventsPreview() {
                 className="group h-full flex flex-col bg-glass border border-glass-border backdrop-blur-xl rounded-[2rem] overflow-hidden hover:border-primary/50 transition-colors duration-500 shadow-xl"
               >
                 <div className="relative w-full h-48 overflow-hidden">
-                  <Image
+                  <img
                     src={event.image}
                     alt={event.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 </div>

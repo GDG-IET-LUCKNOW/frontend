@@ -3,8 +3,15 @@ const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://gdg-backend-dx5f.o
 export const formatImageUrl = (url: string) => {
   if (!url) return "";
   if (url.includes('drive.google.com') || url.includes('googleusercontent.com')) {
-    const idMatch = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/&?]+)/) || url.match(/\/d\/([^=]+)/);
-    if (idMatch) return `https://lh3.googleusercontent.com/d/${idMatch[1]}=w1000`;
+    // If it's already a formatted lh3 link, don't add the suffix again
+    if (url.includes('lh3.googleusercontent.com/d/') && url.includes('=w')) {
+      return url;
+    }
+    const idMatch = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/&?]+)/);
+    if (idMatch) {
+      const id = idMatch[1].split('=')[0]; // Get only the ID, remove any existing suffix
+      return `https://lh3.googleusercontent.com/d/${id}=w1000`;
+    }
   }
   return url;
 };

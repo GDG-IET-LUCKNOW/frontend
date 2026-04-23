@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { Calendar, MapPin, Clock, ArrowLeft, ArrowRight, User, Users, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
-import { fetchEventById } from "@/api/api";
+import { fetchEventById, formatImageUrl } from "@/api/api";
 
 export default function EventDetailPage() {
   const params = useParams();
@@ -72,10 +72,10 @@ export default function EventDetailPage() {
   
   if (event.media && event.media.length > 0) {
     event.media.forEach((m: any) => {
-      if (m.url) allImages.push(m.url);
+      if (m.url) allImages.push(formatImageUrl(m.url));
     });
   } else if (event.mediaUrl) {
-    allImages.push(event.mediaUrl);
+    allImages.push(formatImageUrl(event.mediaUrl));
   }
 
   if (allImages.length > 0) {
@@ -103,10 +103,15 @@ export default function EventDetailPage() {
             <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">{title}</TextScramble>
             
             <div 
-               className="w-full h-[350px] md:h-[450px] relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group"
+               className="w-full relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group bg-black/5"
                onClick={() => setLightboxIndex(0)}
             >
-               <Image src={coverImage} alt="Event Cover" fill className="object-cover transition-transform group-hover:scale-105 duration-700" />
+               <img 
+                 src={coverImage} 
+                 alt="Event Cover" 
+                 className="w-full h-auto block transition-transform group-hover:scale-105 duration-700" 
+                 referrerPolicy="no-referrer"
+               />
                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
                </div>
@@ -145,6 +150,7 @@ export default function EventDetailPage() {
                         alt={`Gallery ${i}`} 
                         fill 
                         className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                        unoptimized
                       />
                       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <ArrowRight className="w-6 h-6 text-white -rotate-45" />
@@ -193,7 +199,6 @@ export default function EventDetailPage() {
                     <div>
                       <div className="font-bold">Location</div>
                       <div className="text-foreground/70">{location}</div>
-                      {!isTBA && event.location && <Link href="#" className="text-primary text-sm hover:underline mt-1 inline-block font-medium">View Map on Google</Link>}
                     </div>
                   </div>
                   
@@ -208,7 +213,7 @@ export default function EventDetailPage() {
                   </div>
                 </div>
                 
-                {(!event.date || new Date(event.date) >= new Date() || isTBA) && (
+                {(event.registrationLink || isTBA) && (!event.date || new Date(event.date) >= new Date() || isTBA) && (
                   <button 
                     onClick={() => { if (!isTBA && event.registrationLink) window.open(event.registrationLink, "_blank"); }}
                     className={`group w-full py-4 rounded-xl flex items-center justify-center space-x-2 font-bold transition-all shadow-xl border ${isTBA || !event.registrationLink ? 'bg-background/20 border-glass-border text-foreground/50 cursor-not-allowed' : 'bg-primary hover:bg-primary/90 text-primary-foreground border-transparent cursor-pointer'}`}
@@ -264,6 +269,7 @@ export default function EventDetailPage() {
                   alt={`Lightbox ${lightboxIndex}`} 
                   fill 
                   className="object-contain" 
+                  unoptimized
                 />
               </motion.div>
             </div>
