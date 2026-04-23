@@ -61,7 +61,7 @@ export default function BlogPage() {
             </div>
           ) : (
             posts.map((post, idx) => (
-            <Link key={post.id} href={`/blog/${post.id}`}>
+            <Link key={post.id} href={`/blog/${post.id}`} prefetch={false}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

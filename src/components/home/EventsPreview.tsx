@@ -54,7 +54,7 @@ export function EventsPreview() {
               Don't miss out on our latest workshops, hackathons, and speaker sessions.
             </p>
           </div>
-          <Link href="/events" className="mt-6 md:mt-0 px-6 py-2 rounded-full border border-glass-border bg-glass backdrop-blur hover:bg-glass/80 transition text-sm font-medium inline-block cursor-pointer">
+          <Link href="/events" prefetch={false} className="mt-6 md:mt-0 px-6 py-2 rounded-full border border-glass-border bg-glass backdrop-blur hover:bg-glass/80 transition text-sm font-medium inline-block cursor-pointer">
             View All Events
           </Link>
         </div>
@@ -70,7 +70,7 @@ export function EventsPreview() {
             </div>
           ) : (
             events.map((event, idx) => (
-            <Link key={event.id} href={`/events/${event.id}`}>
+            <Link key={event.id} href={`/events/${event.id}`} prefetch={false}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

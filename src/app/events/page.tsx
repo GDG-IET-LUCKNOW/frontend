@@ -66,7 +66,7 @@ export default function EventsPage() {
             </div>
           ) : (
             events.map((event, idx) => (
-            <Link key={event.id} href={`/events/${event.id}`}>
+            <Link key={event.id} href={`/events/${event.id}`} prefetch={false}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

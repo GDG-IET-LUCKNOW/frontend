@@ -34,7 +34,7 @@ export function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 px-4 py-4 md:py-6 transition-all duration-300">
       <div className="max-w-6xl mx-auto rounded-2xl bg-glass border border-glass-border backdrop-blur-xl shadow-lg flex items-center justify-between px-6 py-3 relative z-50">
-        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center space-x-2">
+        <Link href="/" prefetch={false} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center space-x-2">
           {mounted && <img src={logoSrc} alt="IETECH Logo" className="w-8 h-8 object-contain drop-shadow-md rounded-lg" />}
           {!mounted && <div className="w-8 h-8 bg-transparent" /> /* placeholder to prevent shifting */}
           <span className="font-bold text-lg tracking-tight">IETECH</span>
@@ -43,7 +43,7 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-primary transition-colors">
+            <Link key={link.href} href={link.href} prefetch={false} className="hover:text-primary transition-colors">
               {link.label}
             </Link>
           ))}
@@ -77,6 +77,7 @@ export function Navbar() {
               <Link 
                 key={link.href} 
                 href={link.href} 
+                prefetch={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-lg font-medium text-foreground hover:text-primary py-3 transition-colors border-b border-glass-border/30 last:border-0"
               >

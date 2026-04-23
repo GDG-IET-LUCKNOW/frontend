@@ -53,7 +53,7 @@ export default function ProjectsPage() {
               const techStack: string[] = Array.isArray(project.techStack) ? project.techStack : [];
 
               return (
-                <Link key={project._id} href={`/projects/${project._id}`}>
+                <Link key={project._id} href={`/projects/${project._id}`} prefetch={false}>
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -46,7 +46,7 @@ export function HeroSection() {
               </span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </a>
-            <Link href="/events" className="px-8 py-4 rounded-full bg-glass border border-glass-border backdrop-blur-md font-medium hover:bg-glass/80 transition-colors inline-block cursor-pointer text-lg">
+            <Link href="/events" prefetch={false} className="px-8 py-4 rounded-full bg-glass border border-glass-border backdrop-blur-md font-medium hover:bg-glass/80 transition-colors inline-block cursor-pointer text-lg">
               Explore Events
             </Link>
           </div>
