@@ -117,11 +117,10 @@ export default function BlogDetailPage() {
             </div>
           )}
           
-          <div className="text-foreground/80 leading-relaxed space-y-6">
-            {content.split('\n').map((paragraph: string, i: number) => (
-              <p key={i}>{paragraph}</p>
-            ))}
-          </div>
+          <div 
+            className="text-foreground/80 leading-relaxed space-y-6"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
 
           {allImages.length > 1 && (
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">

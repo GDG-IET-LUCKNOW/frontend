@@ -124,9 +124,10 @@ export default function EventDetailPage() {
                className="prose prose-invert prose-lg max-w-none mb-12 text-foreground/80 leading-relaxed"
             >
               <h2 className="text-2xl font-bold text-foreground mb-4">About this Event</h2>
-              {description.split('\n').map((paragraph: string, i: number) => (
-                <p key={i} className="mb-6">{paragraph}</p>
-              ))}
+              <div 
+                className="mb-6"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
             </motion.div>
 
             {allImages.length > 1 && (

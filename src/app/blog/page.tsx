@@ -20,7 +20,7 @@ export default function BlogPage() {
            const mappedBlogs = data.map((b: any) => ({
              id: b._id || b.id,
              title: b.title || "Untitled",
-             excerpt: b.content ? b.content.substring(0, 120) + "..." : "A deep dive into how changing the way we build modern web applications and optimizing bundle sizes.",
+             excerpt: b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 120) + "..." : "A deep dive into how changing the way we build modern web applications and optimizing bundle sizes.",
              author: b.author || "GDG Team",
              date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
              category: "Tech",
