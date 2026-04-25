@@ -87,20 +87,20 @@ export default function EventDetailPage() {
       <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[160px] pointer-events-none z-0" />
       <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[140px] pointer-events-none z-0" />
       
-      <div className="max-w-5xl mx-auto px-4 z-10 w-full relative">
+      <div className="max-w-[1600px] mx-auto px-4 z-10 w-full relative">
         <Link href="/events" className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-8 font-medium">
            <ArrowLeft className="w-4 h-4" />
            <span>Back to Events</span>
         </Link>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           
-          <div className="lg:col-span-2 flex flex-col">
+          <div className="lg:col-span-3 flex flex-col">
             <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 mb-6 font-medium">
               <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">{type}</div>
             </div>
             
-            <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">{title}</TextScramble>
+            <TextScramble as="h1" className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-8 leading-tight break-normal text-balance">{title}</TextScramble>
             
             <div 
                className="w-full relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group bg-black/5"
@@ -125,7 +125,7 @@ export default function EventDetailPage() {
             >
               <h2 className="text-2xl font-bold text-foreground mb-4">About this Event</h2>
               <div 
-                className="mb-6"
+                className="mb-6 break-words whitespace-pre-wrap [&>*]:break-words [&>*]:whitespace-pre-wrap overflow-hidden"
                 dangerouslySetInnerHTML={{ __html: description }}
               />
             </motion.div>

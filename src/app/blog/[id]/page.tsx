@@ -76,7 +76,7 @@ export default function BlogDetailPage() {
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-[5%] left-[20%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[160px] pointer-events-none z-0" />
       
-      <div className="max-w-4xl mx-auto px-4 z-10 w-full relative">
+      <div className="max-w-[1600px] mx-auto px-4 z-10 w-full relative">
         <Link href="/blog" className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-8 font-medium">
            <ArrowLeft className="w-4 h-4" />
            <span>Back to Articles</span>
@@ -118,7 +118,7 @@ export default function BlogDetailPage() {
           )}
           
           <div 
-            className="text-foreground/80 leading-relaxed space-y-6"
+            className="text-foreground/80 leading-relaxed space-y-6 break-words whitespace-pre-wrap [&>*]:break-words [&>*]:whitespace-pre-wrap overflow-hidden"
             dangerouslySetInnerHTML={{ __html: content }}
           />
 
