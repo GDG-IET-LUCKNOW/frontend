@@ -64,13 +64,13 @@ export default function TeamPage() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-16">
           {isLoading ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading team members...</p>
             </div>
           ) : currentMembers.length === 0 ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2.5rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Team members will be revealed shortly!</p>
             </div>
           ) : (
@@ -82,7 +82,7 @@ export default function TeamPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
               onClick={() => setSelectedMember(member)}
-              className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer"
+              className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] shrink-0"
             >
               {member.imageUrl ? (
                 <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
@@ -107,7 +107,7 @@ export default function TeamPage() {
               <div className="h-1 w-20 bg-primary/30 mx-auto rounded-full" />
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-16">
               {pastMembers.map((member, idx) => (
                 <motion.div
                   key={idx}
@@ -116,7 +116,7 @@ export default function TeamPage() {
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                   onClick={() => setSelectedMember(member)}
-                  className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer h-full"
+                  className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer h-full w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] shrink-0"
                 >
                   {member.imageUrl ? (
                     <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">

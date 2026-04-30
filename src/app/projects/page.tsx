@@ -82,7 +82,7 @@ export default function ProjectsPage() {
                         {project.title}
                       </h3>
                       <p className="text-foreground/60 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {project.description || "No description provided."}
+                        {(project.description || "No description provided.").replace(/<[^>]*>?/gm, '')}
                       </p>
 
                       {/* Tech Stack */}

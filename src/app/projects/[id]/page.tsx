@@ -125,14 +125,13 @@ export default function ProjectDetailPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-12"
+              className="prose prose-invert prose-lg max-w-none mb-12 text-foreground/80 leading-relaxed"
             >
               <h2 className="text-2xl font-bold text-foreground mb-4">About this Project</h2>
-              <div className="text-foreground/80 leading-relaxed space-y-4">
-                {(project.description || "No description provided.").split('\n').map((para: string, i: number) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
+              <div 
+                className="mb-6 break-words whitespace-pre-wrap [&>*]:break-words [&>*]:whitespace-pre-wrap overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: project.description || "No description provided." }}
+              />
             </motion.div>
 
             {/* Gallery */}
