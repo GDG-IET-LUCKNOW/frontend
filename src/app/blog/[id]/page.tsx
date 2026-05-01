@@ -51,8 +51,8 @@ export default function BlogDetailPage() {
       <main className="flex-1 w-full flex flex-col items-center justify-center pt-32 pb-24 h-screen">
         <TextScramble as="h1" className="text-4xl font-bold tracking-tight mb-8 leading-tight">Article not found</TextScramble>
         <Link href="/blog" className="inline-flex items-center space-x-2 text-primary hover:underline transition-colors mt-4 font-medium">
-           <ArrowLeft className="w-4 h-4" />
-           <span>Back to Articles</span>
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Articles</span>
         </Link>
       </main>
     );
@@ -63,7 +63,7 @@ export default function BlogDetailPage() {
   const dateStr = blog.createdAt ? new Date(blog.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : "TBA";
   const content = blog.content || "";
   const allImages: string[] = [];
-  
+
   if (blog.media && blog.media.length > 0) {
     blog.media.forEach((m: any) => {
       if (m.url) allImages.push(formatImageUrl(m.url));
@@ -75,67 +75,74 @@ export default function BlogDetailPage() {
   return (
     <main className="flex-1 w-full flex flex-col items-center pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-[5%] left-[20%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[160px] pointer-events-none z-0" />
-      
+
       <div className="max-w-5xl mx-auto px-4 z-10 w-full relative">
         <Link href="/blog" className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-8 font-medium">
-           <ArrowLeft className="w-4 h-4" />
-           <span>Back to Articles</span>
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Articles</span>
         </Link>
-        
+
         <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/60 mb-6 font-medium">
           <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">Article</div>
           <div className="flex items-center space-x-2"><Calendar className="w-4 h-4" /><span>{dateStr}</span></div>
         </div>
-        
+
         <TextScramble as="h1" className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">{title}</TextScramble>
-        
+
         <div className="flex items-center space-x-4 mb-12 border-b border-glass-border/50 pb-8">
-           <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/30 shadow-lg">
-              {author[0].toUpperCase()}
-           </div>
-           <div>
-             <div className="font-bold text-lg">{author}</div>
-             <div className="text-sm text-foreground/60">Community Contributor</div>
-           </div>
+          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/30 shadow-lg">
+            {author[0].toUpperCase()}
+          </div>
+          <div>
+            <div className="font-bold text-lg">{author}</div>
+            <div className="text-sm text-foreground/60">Community Contributor</div>
+          </div>
         </div>
-        
+
         <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.6 }}
-           className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground hover:prose-a:text-primary/80"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground hover:prose-a:text-primary/80"
         >
           {allImages.length > 0 && (
-            <div 
-              className="w-full h-[400px] md:h-[500px] relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-2xl cursor-pointer group"
+            <div
+              className="max-w-4xl mx-auto relative rounded-[2rem] overflow-hidden mb-12 border border-glass-border shadow-xl cursor-pointer group bg-white/5"
               onClick={() => setLightboxIndex(0)}
             >
-               <Image src={allImages[0]} alt="Blog Header" fill className="object-cover transition-transform group-hover:scale-105 duration-700" unoptimized />
-               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
-               </div>
+              <img src={allImages[0]} alt="Blog Header" className="w-full h-auto block transition-transform group-hover:scale-105 duration-700" />
+              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 font-bold text-white shadow-xl">View Full Image</span>
+              </div>
             </div>
           )}
-          
-          <div 
+
+          <div
             className="text-foreground/80 leading-relaxed space-y-6 break-words whitespace-pre-wrap [&>*]:break-words [&>*]:whitespace-pre-wrap overflow-hidden"
             dangerouslySetInnerHTML={{ __html: content }}
           />
 
           {allImages.length > 1 && (
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {allImages.slice(1).map((img, i) => (
-                <div 
-                  key={i} 
-                  className="aspect-video relative rounded-2xl overflow-hidden border border-glass-border shadow-xl hover:shadow-primary/10 transition-all group cursor-pointer"
-                  onClick={() => setLightboxIndex(i + 1)}
-                >
-                  <Image src={img} alt={`Gallery ${i}`} fill className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <ArrowRight className="w-8 h-8 text-white -rotate-45" />
+            <div className="mt-16">
+              <h3 className="text-2xl font-bold mb-6 text-foreground">Gallery</h3>
+              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+                {allImages.slice(1).map((img, i) => (
+                  <div
+                    key={i}
+                    className="relative rounded-2xl overflow-hidden group cursor-pointer border border-glass-border shadow-md"
+                    onClick={() => setLightboxIndex(i + 1)}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`Gallery ${i}`} 
+                      className="w-full h-auto block transition-transform duration-500 group-hover:scale-110 rounded-2xl" 
+                    />
+                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <ArrowRight className="w-5 h-5 text-white -rotate-45" />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </motion.div>
@@ -165,7 +172,7 @@ export default function BlogDetailPage() {
               <ChevronLeft className="w-12 h-12" />
             </button>
 
-            <div 
+            <div
               className="relative w-full max-w-5xl aspect-video md:aspect-[16/10] overflow-hidden rounded-3xl border border-white/10 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
@@ -177,11 +184,11 @@ export default function BlogDetailPage() {
                 transition={{ duration: 0.3 }}
                 className="w-full h-full"
               >
-                <Image 
-                  src={allImages[lightboxIndex]} 
-                  alt={`Lightbox ${lightboxIndex}`} 
-                  fill 
-                  className="object-contain" 
+                <Image
+                  src={allImages[lightboxIndex]}
+                  alt={`Lightbox ${lightboxIndex}`}
+                  fill
+                  className="object-contain"
                   unoptimized
                 />
               </motion.div>

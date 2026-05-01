@@ -53,13 +53,13 @@ export function TestimonialsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {isLoading ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading stories...</p>
             </div>
           ) : testimonials.length === 0 ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No community stories listed yet!</p>
             </div>
           ) : (
@@ -76,7 +76,7 @@ export function TestimonialsSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, delay: idx * 0.2 }}
-                  className="p-8 rounded-[2rem] bg-glass border border-glass-border backdrop-blur-md relative flex flex-col"
+                  className="p-8 rounded-[2rem] bg-glass border border-glass-border backdrop-blur-md relative flex flex-col w-full md:w-[calc(33.333%_-_1rem)] shrink-0"
                 >
                   <Quote className="w-8 h-8 text-primary/40 mb-6" />
                   <p className="text-foreground/80 font-medium leading-relaxed mb-8">

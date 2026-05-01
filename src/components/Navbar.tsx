@@ -9,11 +9,13 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const pathname = usePathname();
 
   React.useEffect(() => {
     setMounted(true);
@@ -43,9 +45,20 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} prefetch={false} className="hover:text-primary transition-colors">
-              {link.label}
+            <Link key={link.href} href={link.href} prefetch={false} className="relative group py-1">
+              <span className={cn(
+                "relative z-10 transition-colors duration-300",
+                (pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href))) ? "text-primary" : "hover:text-primary"
+              )}>
+                {link.label}
+              </span>
+              <span className={cn(
+                "absolute -bottom-1 left-0 w-full h-[2px] bg-primary transition-transform duration-300 origin-left rounded-full",
+                (pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href))) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+              )} />
             </Link>
+
+
           ))}
         </nav>
         
@@ -73,17 +86,28 @@ export function Navbar() {
             transition={{ duration: 0.2 }}
             className="absolute top-full left-4 right-4 mt-2 p-6 bg-background/95 border border-glass-border backdrop-blur-3xl rounded-2xl shadow-2xl flex flex-col space-y-4 md:hidden z-40"
           >
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href));
+              return (
               <Link 
                 key={link.href} 
                 href={link.href} 
                 prefetch={false}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-medium text-foreground hover:text-primary py-3 transition-colors border-b border-glass-border/30 last:border-0"
+                className={cn(
+                  "text-lg font-medium py-3 transition-colors border-b border-glass-border/30 last:border-0 relative flex items-center justify-between group",
+                  isActive ? "text-primary" : "text-foreground hover:text-primary"
+                )}
               >
-                {link.label}
+                <span>{link.label}</span>
+                {isActive ? (
+                  <motion.div layoutId="mobile-nav-indicator" className="w-2 h-2 rounded-full bg-primary" />
+                ) : (
+                  <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-50 transition-opacity" />
+                )}
               </Link>
-            ))}
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>

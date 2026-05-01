@@ -55,18 +55,18 @@ export default function EventsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-wrap justify-center gap-8">
           {isLoading ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading events...</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No upcoming events listed yet. Check back soon!</p>
             </div>
           ) : (
             events.map((event, idx) => (
-              <Link key={event.id} href={`/events/${event.id}`} prefetch={false}>
+              <Link key={event.id} href={`/events/${event.id}`} prefetch={false} className="block w-full md:w-[calc(50%_-_1rem)] lg:w-[calc(33.333%_-_1.34rem)] shrink-0">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}

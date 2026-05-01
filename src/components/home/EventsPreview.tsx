@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { fetchEvents, formatImageUrl } from "@/api/api";
 
@@ -59,18 +59,18 @@ export function EventsPreview() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {isLoading ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">Loading upcoming events...</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="col-span-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
+            <div className="w-full h-40 flex items-center justify-center border border-glass-border/30 rounded-[2rem] bg-glass backdrop-blur">
               <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No upcoming events listed yet. Check back soon!</p>
             </div>
           ) : (
             events.map((event, idx) => (
-            <Link key={event.id} href={`/events/${event.id}`} prefetch={false}>
+            <Link key={event.id} href={`/events/${event.id}`} prefetch={false} className="block w-full md:w-[calc(33.333%_-_1rem)] shrink-0">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -101,24 +101,18 @@ export function EventsPreview() {
                     </div>
                   </div>
                   
-                  <button 
+                  <button
                     onClick={(e) => {
-                      if (event.status !== 'Past' && !event.isTBA && event.registrationLink) {
+                      if (event.status !== 'Past' && event.registrationLink) {
                         e.preventDefault();
                         e.stopPropagation();
                         window.open(event.registrationLink, "_blank");
-                      } else if (event.status !== 'Past' || event.isTBA) {
-                        e.preventDefault();
-                        e.stopPropagation();
                       }
                     }}
-                    className={`w-full py-3 rounded-xl border flex items-center justify-center space-x-2 font-medium transition-all ${
-                      event.status === 'Past' 
-                      ? 'bg-background/20 border-glass-border text-foreground/50 cursor-not-allowed' 
-                      : 'bg-primary/10 border-primary/30 hover:bg-primary hover:text-primary-foreground text-primary'
-                    }`}
+                    className="w-full py-4 rounded-xl border border-primary/30 bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary flex items-center justify-center space-x-2 font-medium transition-all cursor-pointer"
                   >
-                    {event.status === 'Past' ? 'View Details' : (event.isTBA ? 'To Be Announced' : 'Register Now')}
+                    <span>{event.status === 'Past' ? 'View Details' : (event.isTBA ? 'To Be Announced' : (event.registrationLink ? 'Register Now' : 'View Details'))}</span>
+                    {event.status !== 'Past' && event.registrationLink && !event.isTBA && <ArrowRight className="w-4 h-4" />}
                   </button>
                 </div>
               </motion.div>

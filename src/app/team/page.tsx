@@ -82,7 +82,7 @@ export default function TeamPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
               onClick={() => setSelectedMember(member)}
-              className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] shrink-0"
+              className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer w-full md:w-[calc(50%_-_1rem)] lg:w-[calc(33.333%_-_1.34rem)] shrink-0"
             >
               {member.imageUrl ? (
                 <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
@@ -116,7 +116,7 @@ export default function TeamPage() {
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                   onClick={() => setSelectedMember(member)}
-                  className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer h-full w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] shrink-0"
+                  className="group flex flex-col items-center text-center p-10 rounded-[2.5rem] bg-glass border border-glass-border backdrop-blur-xl shadow-2xl hover:border-primary/50 transition-all duration-500 cursor-pointer h-full w-full md:w-[calc(50%_-_1rem)] lg:w-[calc(33.333%_-_1.34rem)] shrink-0"
                 >
                   {member.imageUrl ? (
                     <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden border-2 border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">

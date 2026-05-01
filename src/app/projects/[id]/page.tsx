@@ -111,7 +111,7 @@ export default function ProjectDetailPage() {
 
             {/* Cover Image */}
             <div
-              className="w-full h-[320px] md:h-[420px] relative rounded-[2rem] overflow-hidden mb-10 border border-glass-border shadow-2xl cursor-pointer group"
+              className="w-full h-[320px] md:h-[420px] relative rounded-[2rem] overflow-hidden mb-10 border border-glass-border shadow-2xl cursor-pointer group bg-white/5"
               onClick={() => setLightboxIndex(0)}
             >
               <Image src={coverImage} alt="Project Cover" fill className="object-cover transition-transform group-hover:scale-105 duration-700" unoptimized />
@@ -128,7 +128,7 @@ export default function ProjectDetailPage() {
               className="prose prose-invert prose-lg max-w-none mb-12 text-foreground/80 leading-relaxed"
             >
               <h2 className="text-2xl font-bold text-foreground mb-4">About this Project</h2>
-              <div 
+              <div
                 className="mb-6 break-words whitespace-pre-wrap [&>*]:break-words [&>*]:whitespace-pre-wrap overflow-hidden"
                 dangerouslySetInnerHTML={{ __html: project.description || "No description provided." }}
               />
@@ -148,7 +148,7 @@ export default function ProjectDetailPage() {
                   {allImages.slice(1).map((img, i) => (
                     <div
                       key={i}
-                      className="aspect-square relative rounded-2xl overflow-hidden border border-glass-border shadow-lg group cursor-pointer"
+                      className="aspect-square relative rounded-2xl overflow-hidden border border-glass-border shadow-lg group cursor-pointer bg-white/5"
                       onClick={() => setLightboxIndex(i + 1)}
                     >
                       <Image src={img} alt={`Gallery ${i + 1}`} fill className="object-cover transition-transform duration-500 group-hover:scale-110" unoptimized />

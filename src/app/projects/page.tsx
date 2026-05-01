@@ -36,9 +36,9 @@ export default function ProjectsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-72 rounded-[2rem] bg-glass border border-glass-border animate-pulse" />
+              <div key={i} className="h-72 rounded-[2rem] bg-glass border border-glass-border animate-pulse w-full md:w-[calc(50%_-_1rem)] lg:w-[calc(33.333%_-_1.34rem)] shrink-0" />
             ))}
           </div>
         ) : projects.length === 0 ? (
@@ -46,14 +46,14 @@ export default function ProjectsPage() {
             <p className="text-lg md:text-xl font-medium text-foreground/60 tracking-wide">No projects published yet. Check back soon!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             {projects.map((project, idx) => {
               const images: string[] = project.media?.map((m: any) => m.url).filter(Boolean) || [];
               const cover = images[0] ? formatImageUrl(images[0]) : FALLBACK_IMAGE;
               const techStack: string[] = Array.isArray(project.techStack) ? project.techStack : [];
 
               return (
-                <Link key={project._id} href={`/projects/${project._id}`} prefetch={false}>
+                <Link key={project._id} href={`/projects/${project._id}`} prefetch={false} className="block w-full md:w-[calc(50%_-_1rem)] lg:w-[calc(33.333%_-_1.34rem)] shrink-0">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,14 @@ export default function ProjectsPage() {
                         {project.title}
                       </h3>
                       <p className="text-foreground/60 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {(project.description || "No description provided.").replace(/<[^>]*>?/gm, '')}
+                        {(project.description || "No description provided.")
+                          .replace(/<[^>]*>?/gm, '')
+                          .replace(/&nbsp;/g, ' ')
+                          .replace(/&amp;/g, '&')
+                          .replace(/&lt;/g, '<')
+                          .replace(/&gt;/g, '>')
+                          .replace(/&quot;/g, '"')
+                          .replace(/&#39;/g, "'")}
                       </p>
 
                       {/* Tech Stack */}
